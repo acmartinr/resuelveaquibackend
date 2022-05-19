@@ -1,4 +1,4 @@
-package Models;
+package com.ecommerce.ecommerce.Models;
 
 import javax.persistence.*;
 
@@ -9,15 +9,14 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private Long id;
-
     @Column(name="name")
     private String name;
-   @Column(name="price")
+    @Column(name="price")
     private double price;
     @Column(name = "img")
     private String img;
     @Column(name = "colors")
-    private String [] colors;
+    private String colors;
     @Column(name="company")
     private String company;
     @Column(name="description")
@@ -27,18 +26,10 @@ public class Producto {
     @Column(name="shipping")
     private boolean shipping;
 
+    public Producto() {
 
-    public Producto(Long id, String name, double price, String img, String[] colors, String company, String description, String category, boolean shipping) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.img = img;
-        this.colors = colors;
-        this.company = company;
-        this.description = description;
-        this.category = category;
-        this.shipping = shipping;
     }
+
 
     public Long getId() {
         return id;
@@ -72,11 +63,11 @@ public class Producto {
         this.img = img;
     }
 
-    public String[] getColors() {
+    public String getColors() {
         return colors;
     }
 
-    public void setColors(String[] colors) {
+    public void setColors(String colors) {
         this.colors = colors;
     }
 
