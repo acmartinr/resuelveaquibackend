@@ -8,9 +8,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +26,19 @@ public class ProductoRest {
     @Autowired
     private ProductoService productoService;
 
-
-    private ResponseEntity<Producto> guardar(@RequestBody Producto producto){
+    @PostMapping("/create")
+    private ResponseEntity<Producto> create(@RequestParam("archivo") MultipartFile archivo, @RequestBody Producto producto) throws IOException {
+        String ruta="C://imagen/img";
+        int index=archivo.getOriginalFilename().indexOf(".");
+        String namefile="";
+        namefile="."+archivo.getOriginalFilename().substring(index+1);
+        String nombrefoto= Calendar.getInstance().getTimeInMillis()+namefile;
+        Path rutaAbsoluta= Paths.get(ruta+"//"+ nombrefoto);
+        Files.write(rutaAbsoluta, archivo.getBytes());
         Producto temp=productoService.create(producto);
 
         try {
-            return ResponseEntity.created(new URI("/api/producto"+temp.getId())).body(temp);
+            return ResponseEntity.status(HttpStatus.OK).body(productoService.create(producto));
         }
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -55,11 +68,18 @@ public class ProductoRest {
         return ResponseEntity.ok(productoService.getAllProducts());
     }
 
-    @DeleteMapping
-    private ResponseEntity<Void> eliminar(@RequestBody Producto producto){
-        productoService.delete(producto);
-        return ResponseEntity.ok().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(productoService.update(id,producto));
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
+    /*public ResponseEntity<?> delete(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(productoService.delete(id));
+    }*/
 
 }
