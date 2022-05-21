@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Controller
 public class ProductoRest {
+    private static final String  devUrl = "http://localhost:3000";
 
     @Autowired
     private ProductoService productoService;
@@ -37,6 +38,8 @@ public class ProductoRest {
         // placeRepository.save(new Place(999999999999L,"(-12.2,22.22)","Place for fun weekend",20.0f,"Sarao Bar Playa","La Habana","19 entre D y E ","La Habana",100,0,true,"bar"));
         return ResponseEntity.ok("Hello");
     }
+
+    @CrossOrigin(origins = devUrl)
     @GetMapping("/products/all")
     public ResponseEntity<List<Producto>> getAllProducts() {
         List<Producto> le = productoService.getAllProducts();
