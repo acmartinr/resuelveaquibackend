@@ -22,9 +22,16 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
-    public void delete(Producto producto){
-        productoRepository.delete(producto);
+    public Producto update(Long id, Producto producto){
+        Optional<Producto> entity=productoRepository.findById(id);
+        Producto p=entity.get();
+        p=productoRepository.save(producto);
+        return p;
     }
+
+    /*public void delete(Long id){
+        productoRepository.deleteById(id);
+    }*/
 
     public Optional<Producto> findByID(Long id){
         return productoRepository.findById(id);
