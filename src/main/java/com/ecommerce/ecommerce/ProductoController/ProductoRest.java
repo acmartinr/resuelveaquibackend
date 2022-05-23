@@ -28,14 +28,14 @@ public class ProductoRest {
     private ProductoService productoService;
 
     @PostMapping("/create")
-    private ResponseEntity<Producto> create(@RequestParam("archivo") MultipartFile archivo, @RequestBody Producto producto) throws IOException {
-        String ruta="C://imagen/img";
+    private ResponseEntity<Producto> create(/*RequestParam("archivo") MultipartFile archivo,*/@RequestBody Producto producto) throws IOException {
+       /* String ruta="C://imagen/img";
         int index=archivo.getOriginalFilename().indexOf(".");
         String namefile="";
         namefile="."+archivo.getOriginalFilename().substring(index+1);
         String nombrefoto= Calendar.getInstance().getTimeInMillis()+namefile;
         Path rutaAbsoluta= Paths.get(ruta+"//"+ nombrefoto);
-        Files.write(rutaAbsoluta, archivo.getBytes());
+        Files.write(rutaAbsoluta, archivo.getBytes());*/
         Producto temp=productoService.create(producto);
 
         try {
