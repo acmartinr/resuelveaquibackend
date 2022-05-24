@@ -9,7 +9,7 @@ public class imgConf implements WebMvcConfigurer {
 
     public void addResourceHandlers(ResourceHandlerRegistry registry){
        WebMvcConfigurer.super.addResourceHandlers(registry);
-       registry.addResourceHandler("/imagenes/**").addResourceLocations("file:/C:/imagen/img");
+       registry.addResourceHandler("/imagenEcc/**").addResourceLocations("file:/C:/imagenEcc/");
 
     }
 }

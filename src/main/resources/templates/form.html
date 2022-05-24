@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Prueba</title>
+</head>
+<body>
+	<form th:action="@{/create}"
+      th:object="${producto}" method="post"
+      enctype="multipart/form-data"
+>
+		<div><input th:field="*{name}" id="name"></div>
+		<div><input th:field="*{price}" id="precio"></div>
+		<div><input th:field="*{colors}" id="color"></div>
+		<div><input th:field="*{company}" id="compagnia"></div>
+		<div><input th:field="*{description}" id="descr"></div>
+		<div><input th:field="*{category}" id="categoria"></div>
+		<div><input th:field="*{shipping}" id="shipping"></div>
+		<br>
+        <input type="file" name="image" accept="image/png, image/jpeg" />Agregue foto
+        <br>
+        <button type="submit">Add Product</button>
+	</form>
+
+
+<script>
+    function addBuisness(){
+        var productoNombre = document.getElementById("name").value;
+        var productoPrecio = document.getElementById("precio").value;
+        var productoColor = document.getElementById("color").value;
+        var productoCompagnia = document.getElementById("compagnia").value;
+        var productoDescription = document.getElementById("descr").value;
+        var productoCategory = document.getElementById("categoria").value;
+        var productoShipping = document.getElementById("shipping").value;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+
+
+            if (this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                console.log(data)
+                window.location.href = '/listar';
+                // we get the returned data
+            }else{
+                console.log("Error POST")
+            }
+
+            
+        };
+
+        xhr.open("POST", "http://localhost:8080/create", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            "name": productoNombre,
+            "price": productoPrecio,
+            "colors":productoColor,
+            "company":productoCompagnia,
+            "description": productoDescription,
+            "category": productoCategory,
+            "shipping": true
+        }));
+    }
+</script>
+</body>
+</html>

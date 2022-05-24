@@ -4,6 +4,8 @@ import com.ecommerce.ecommerce.Models.Producto;
 import com.ecommerce.ecommerce.Repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,9 +31,9 @@ public class ProductoService {
         return p;
     }
 
-    /*public void delete(Long id){
+    public void delete(Long id){
         productoRepository.deleteById(id);
-    }*/
+    }
 
     public Optional<Producto> findByID(Long id){
         return productoRepository.findById(id);

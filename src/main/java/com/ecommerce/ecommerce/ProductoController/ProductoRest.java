@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,15 +28,16 @@ public class ProductoRest {
     private ProductoService productoService;
 
     @PostMapping("/create")
-    private ResponseEntity<Producto> create(/*RequestParam("archivo") MultipartFile archivo,*/@RequestBody Producto producto) throws IOException {
-       /* String ruta="C://imagen/img";
+    private ResponseEntity<Producto> create(@RequestParam("archivo") MultipartFile archivo,@RequestBody Producto producto) throws IOException {
+
+        String ruta="C://imagenEcc";
         int index=archivo.getOriginalFilename().indexOf(".");
-        String namefile="";
-        namefile="."+archivo.getOriginalFilename().substring(index+1);
-        String nombrefoto= Calendar.getInstance().getTimeInMillis()+namefile;
-        Path rutaAbsoluta= Paths.get(ruta+"//"+ nombrefoto);
-        Files.write(rutaAbsoluta, archivo.getBytes());*/
-        Producto temp=productoService.create(producto);
+        String extension="";
+        extension="."+archivo.getOriginalFilename().substring(index+1);
+        String nombreFoto= Calendar.getInstance().getTimeInMillis()+extension;
+        Path rutaAbsoluta= Paths.get(ruta+"//"+ nombreFoto);
+        Files.write(rutaAbsoluta, archivo.getBytes());
+        producto.setImg("nombreFoto");
 
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.create(producto));
@@ -45,6 +47,8 @@ public class ProductoRest {
         }
 
     }
+
+
     @GetMapping("/")
     public ResponseEntity<String> index() {
         // placeRepository.save(new Place(999999999999L,"(-12.2,22.22)","Place for fun weekend",20.0f,"Sarao Bar Playa","La Habana","19 entre D y E ","La Habana",100,0,true,"bar"));
@@ -78,8 +82,9 @@ public class ProductoRest {
         }
     }
 
-    /*public ResponseEntity<?> delete(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(productoService.delete(id));
-    }*/
+   @DeleteMapping("/delete/{id}")
+   public void delete(@PathVariable ("id") Long id){
+        productoService.delete(id);
+    }
 
 }
