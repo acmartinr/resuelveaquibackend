@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.net.URI;
@@ -27,6 +28,12 @@ public class ProductoRest {
 
     @Autowired
     private ProductoService productoService;
+
+    @RequestMapping("/form")
+    public String home(){
+        return "home";
+    }
+
 
     @PostMapping("/create")
     private ResponseEntity<Producto> create(@RequestParam("archivo") MultipartFile archivo,@RequestBody Producto producto) throws IOException {
@@ -50,11 +57,11 @@ public class ProductoRest {
     }
 
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public ResponseEntity<String> index() {
         // placeRepository.save(new Place(999999999999L,"(-12.2,22.22)","Place for fun weekend",20.0f,"Sarao Bar Playa","La Habana","19 entre D y E ","La Habana",100,0,true,"bar"));
         return ResponseEntity.ok("Hello");
-    }
+    }*/
 
     @CrossOrigin(origins = devUrl)
     @GetMapping("/products/all")
@@ -70,8 +77,9 @@ public class ProductoRest {
     }
 
 
-    @GetMapping
-    private ResponseEntity<List<Producto>> listar(){
+    @CrossOrigin(origins = devUrl)
+    @GetMapping("/")
+    private ResponseEntity<List<Producto>> list(){
         return ResponseEntity.ok(productoService.getAllProducts());
     }
 
@@ -86,8 +94,12 @@ public class ProductoRest {
     }
 
    @DeleteMapping("/delete/{id}")
-   public void delete(@PathVariable ("id") Long id){
+   public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
+        if(productoService.findByID(id)==null)
+            return ResponseEntity.ok(Boolean.FALSE);
+        else
         productoService.delete(id);
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 
 }

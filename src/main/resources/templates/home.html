@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Prueba</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prueba</title>
 </head>
 <body>
-	<form th:action="@{/create}"
+<form th:action="@{/create}"
       th:object="${producto}" method="post"
       enctype="multipart/form-data"
 >
-		<div><input th:field="*{name}" id="name"></div>
-		<div><input th:field="*{price}" id="precio"></div>
-		<div><input th:field="*{colors}" id="color"></div>
-		<div><input th:field="*{company}" id="compagnia"></div>
-		<div><input th:field="*{description}" id="descr"></div>
-		<div><input th:field="*{category}" id="categoria"></div>
-		<div><input th:field="*{shipping}" id="shipping"></div>
-		<br>
-        <input type="file" name="image" accept="image/png, image/jpeg" />Agregue foto
-        <br>
-        <button type="submit">Add Product</button>
-	</form>
+    <div><input th:field="*{name}" id="name"></div>
+    <div><input th:field="*{price}" id="precio"></div>
+    <div><input th:field="*{colors}" id="color"></div>
+    <div><input th:field="*{company}" id="compagnia"></div>
+    <div><input th:field="*{description}" id="descr"></div>
+    <div><input th:field="*{category}" id="categoria"></div>
+    <div><input th:field="*{shipping}" id="shipping"></div>
+    <br>
+    <input type="file" name="image" accept="image/png, image/jpeg" />Agregue foto
+    <br>
+    <button type="submit">Add Product</button>
+</form>
 
 
 <script>
@@ -46,7 +46,7 @@
                 console.log("Error POST")
             }
 
-            
+
         };
 
         xhr.open("POST", "http://localhost:8080/create", true);
