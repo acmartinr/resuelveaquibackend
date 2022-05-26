@@ -45,9 +45,9 @@ public class ProductoRest {
 
 
         int index=archivo.getOriginalFilename().indexOf(".");
-        String extension;
-        extension="."+archivo.getOriginalFilename().substring(index+1);
-        String nombreFoto= Calendar.getInstance().getTimeInMillis()+extension;
+        /*String extension;
+        extension="."+archivo.getOriginalFilename().substring(index+1);*/
+        String nombreFoto= Calendar.getInstance().getTimeInMillis()+"";
         FileUploadUtil.saveFile("product-images",nombreFoto,archivo);
         producto.setImg(nombreFoto);
 
