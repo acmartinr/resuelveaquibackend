@@ -84,7 +84,7 @@ public class ProductoRest {
     }
 
 
-    @CrossOrigin(origins = devUrl)
+    @CrossOrigin
     @GetMapping("/")
     private ResponseEntity<List<Producto>> list(){
         return ResponseEntity.ok(productoService.getAllProducts());
