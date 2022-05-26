@@ -40,7 +40,7 @@ public class ProductoRest {
     }
 
 
-    @CrossOrigin(origins = devUrl)
+    @CrossOrigin
     @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
             produces=MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile archivo,@RequestPart Producto producto) throws IOException {
@@ -70,7 +70,7 @@ public class ProductoRest {
         return ResponseEntity.ok("Hello");
     }*/
 
-    @CrossOrigin(origins = devUrl)
+    @CrossOrigin
     @GetMapping("/products/all")
     public ResponseEntity<List<Producto>> getAllProducts() {
         List<Producto> le = productoService.getAllProducts();
@@ -100,6 +100,7 @@ public class ProductoRest {
         }
     }
 
+    @CrossOrigin
    @DeleteMapping("/delete/{id}")
    public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
         if(productoService.findByID(id)==null)
