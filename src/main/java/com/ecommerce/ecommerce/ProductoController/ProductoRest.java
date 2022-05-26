@@ -31,6 +31,7 @@ public class ProductoRest {
     @Autowired
     private ProductoService productoService;
 
+    @CrossOrigin(origins = devUrl)
     @GetMapping("/create")
     public String home(Model model){
         Producto producto=new Producto();
@@ -39,6 +40,7 @@ public class ProductoRest {
     }
 
 
+    @CrossOrigin(origins = devUrl)
     @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
             produces=MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile archivo,@RequestPart Producto producto) throws IOException {
