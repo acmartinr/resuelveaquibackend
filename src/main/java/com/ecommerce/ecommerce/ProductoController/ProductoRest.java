@@ -3,8 +3,10 @@ package com.ecommerce.ecommerce.ProductoController;
 
 import com.ecommerce.ecommerce.Models.Producto;
 import com.ecommerce.ecommerce.Services.ProductoService;
+import com.ecommerce.ecommerce.Utils.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,23 +31,26 @@ public class ProductoRest {
     @Autowired
     private ProductoService productoService;
 
-    @RequestMapping("/form")
-    public String home(){
+    @GetMapping("/create")
+    public String home(Model model){
+        Producto producto=new Producto();
+        model.addAttribute("producto", producto);
         return "home";
     }
 
 
-    @PostMapping("/create")
-    private ResponseEntity<Producto> create(@RequestParam("archivo") MultipartFile archivo,@RequestBody Producto producto) throws IOException {
+    @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces=MediaType.APPLICATION_JSON_VALUE)
+    private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile archivo,@RequestPart Producto producto) throws IOException {
 
-        String ruta="C://imagenEcc";
+
         int index=archivo.getOriginalFilename().indexOf(".");
-        String extension="";
+        String extension;
         extension="."+archivo.getOriginalFilename().substring(index+1);
         String nombreFoto= Calendar.getInstance().getTimeInMillis()+extension;
-        Path rutaAbsoluta= Paths.get(ruta+"//"+ nombreFoto);
-        Files.write(rutaAbsoluta, archivo.getBytes());
-        producto.setImg("nombreFoto");
+        FileUploadUtil.saveFile("product-images",nombreFoto,archivo);
+        producto.setImg(nombreFoto);
+
 
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.create(producto));

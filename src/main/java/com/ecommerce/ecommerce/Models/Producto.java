@@ -27,7 +27,7 @@ public class Producto {
     private boolean shipping;
 
     public Producto() {
-
+        super();
     }
 
 
