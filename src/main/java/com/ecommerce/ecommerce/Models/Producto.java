@@ -13,14 +13,21 @@ public class Producto {
     private String name;
     @Column(name="price")
     private double price;
+    @Column(name="stock")
+    private int stock;
     @Column(name = "img")
     private String img;
+
+    @Column(name = "thumb")
+    private String thumb;
     @Column(name = "colors")
     private String colors;
     @Column(name="company")
     private String company;
     @Column(name="description")
     private String description;
+    @Column(name="details")
+    private String details;
     @Column(name = "category")
     private String category;
     @Column(name="shipping")
@@ -55,6 +62,10 @@ public class Producto {
         this.price = price;
     }
 
+    public int getStock() {return stock; }
+
+    public void setStock(int stock) {this.stock = stock; }
+
     public String getImg() {
         return img;
     }
@@ -62,6 +73,10 @@ public class Producto {
     public void setImg(String img) {
         this.img = img;
     }
+
+    public String getThumb() {return thumb; }
+
+    public void setThumb(String thumb) {this.thumb = thumb; }
 
     public String getColors() {
         return colors;
@@ -87,13 +102,15 @@ public class Producto {
         this.description = description;
     }
 
+    public String getDetails() {return details; }
+
+    public void setDetails(String details) {this.details = details; }
+
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public void setCategory(String category) {this.category = category; }
 
     public boolean isShipping() {
         return shipping;
