@@ -4,6 +4,7 @@ package com.ecommerce.ecommerce.ProductoController;
 import com.ecommerce.ecommerce.Models.Producto;
 import com.ecommerce.ecommerce.Services.ProductoService;
 import com.ecommerce.ecommerce.Utils.FileUploadUtil;
+import com.ecommerce.ecommerce.Utils.ThumbnailCreateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,14 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +26,7 @@ public class ProductoRest {
     @Autowired
     private ProductoService productoService;
 
-    @CrossOrigin(origins = devUrl)
+    @CrossOrigin
     @GetMapping("/create")
     public String home(Model model){
         Producto producto=new Producto();
@@ -44,16 +39,16 @@ public class ProductoRest {
     @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
             produces=MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile archivo,@RequestPart Producto producto) throws IOException {
-
-
         int index=archivo.getOriginalFilename().indexOf(".");
-        /*String extension;
-        extension="."+archivo.getOriginalFilename().substring(index+1);*/
-        String nombreFoto= Calendar.getInstance().getTimeInMillis()+"";
+        String extension;
+        extension="."+archivo.getOriginalFilename().substring(index+1);
+        String nombreFoto= Calendar.getInstance().getTimeInMillis()+extension;
         FileUploadUtil.saveFile("product-images",nombreFoto,archivo);
+        String absolute="C:/Users/Gabriel/Desktop/ecommerce/resuelveaquibackend/product-images/"+nombreFoto;
+
+        ThumbnailCreateUtil.thumbCreate(absolute);
         producto.setImg(nombreFoto);
-
-
+        producto.setThumb(nombreFoto);
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.create(producto));
         }
@@ -78,6 +73,7 @@ public class ProductoRest {
         return ResponseEntity.ok(le);
     }
 
+    @CrossOrigin
     @GetMapping(value = "get/{id}")
     private ResponseEntity<Optional<Producto>> buscar(@PathVariable ("id") Long id){
         return ResponseEntity.ok(productoService.findByID(id));
@@ -90,6 +86,7 @@ public class ProductoRest {
         return ResponseEntity.ok(productoService.getAllProducts());
     }
 
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto){
         try {
