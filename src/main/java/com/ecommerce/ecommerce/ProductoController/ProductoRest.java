@@ -14,10 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Controller
 public class ProductoRest {
@@ -38,17 +38,22 @@ public class ProductoRest {
     @CrossOrigin
     @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
             produces=MediaType.APPLICATION_JSON_VALUE)
-    private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile archivo,@RequestPart Producto producto) throws IOException {
+    private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile[] archivos,@RequestPart Producto producto) throws IOException {
+       String []a=new String[archivos.length];
+       int i=0;
+        for (MultipartFile archivo:archivos){
         int index=archivo.getOriginalFilename().indexOf(".");
         String extension;
         extension="."+archivo.getOriginalFilename().substring(index+1);
         String nombreFoto= Calendar.getInstance().getTimeInMillis()+extension;
         FileUploadUtil.saveFile("product-images",nombreFoto,archivo);
-        String absolute="C:/Users/Gabriel/Desktop/ecommerce/resuelveaquibackend/product-images/"+nombreFoto;
-
+        //String absolute="C:/Users/Gabriel/Desktop/ecommerce/resuelveaquibackend/product-images/"+nombreFoto;
+        String absolute= Paths.get("product-images").toFile().getAbsolutePath()+File.separator+nombreFoto;
         ThumbnailCreateUtil.thumbCreate(absolute);
-        producto.setImg(nombreFoto);
-        producto.setThumb(nombreFoto);
+        a[i]=nombreFoto;
+        i++;}
+        producto.setImg(a);
+        producto.setThumb(a);
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.create(producto));
         }
