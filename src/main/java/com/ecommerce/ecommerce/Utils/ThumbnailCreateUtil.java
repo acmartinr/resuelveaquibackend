@@ -18,7 +18,7 @@ public class ThumbnailCreateUtil {
         File thumbnailFile=new File(thumbnailFullPath);
         try {
             Thumbnails.of(file )
-                    .size(100, 100)
+                    .size(300, 300)
                     .toFile(thumbnailFile);
         }
         catch (IOException e){
