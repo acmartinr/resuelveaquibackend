@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.Models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table (name="producto")
@@ -16,18 +17,21 @@ public class Producto {
     @Column(name="stock")
     private int stock;
     @Column(name = "img")
-    private String img;
+    private String[] img;
 
     @Column(name = "thumb")
-    private String thumb;
+    private String[] thumb;
     @Column(name = "colors")
-    private String colors;
+    private String[] colors;
     @Column(name="company")
     private String company;
     @Column(name="description")
     private String description;
     @Column(name="details")
     private String details;
+
+    @Column(name="featured")
+    private String featured;
     @Column(name = "category")
     private String category;
     @Column(name="shipping")
@@ -66,23 +70,23 @@ public class Producto {
 
     public void setStock(int stock) {this.stock = stock; }
 
-    public String getImg() {
+    public String[] getImg() {
         return img;
     }
 
-    public void setImg(String img) {
+    public void setImg(String[] img) {
         this.img = img;
     }
 
-    public String getThumb() {return thumb; }
+    public String[] getThumb() {return thumb; }
 
-    public void setThumb(String thumb) {this.thumb = thumb; }
+    public void setThumb(String[] thumb) {this.thumb = thumb; }
 
-    public String getColors() {
+    public String[] getColors() {
         return colors;
     }
 
-    public void setColors(String colors) {
+    public void setColors(String[] colors) {
         this.colors = colors;
     }
 
@@ -111,6 +115,10 @@ public class Producto {
     }
 
     public void setCategory(String category) {this.category = category; }
+
+    public String getFeatured() {return featured; }
+
+    public void setFeatured(String featured) {this.featured = featured; }
 
     public boolean isShipping() {
         return shipping;
