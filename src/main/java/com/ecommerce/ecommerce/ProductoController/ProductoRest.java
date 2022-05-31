@@ -50,6 +50,7 @@ public class ProductoRest {
         ThumbnailCreateUtil.thumbCreate(absolute);
         a=a.concat(nombreFoto+",").trim();
         }
+        a=a.substring(0,a.length()-1);
         producto.setImg(a);
         producto.setThumb(a);
         try {
