@@ -39,19 +39,17 @@ public class ProductoRest {
     @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
             produces=MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile[] archivos,@RequestPart Producto producto) throws IOException {
-       String []a=new String[archivos.length];
-       int i=0;
+        String a="";
         for (MultipartFile archivo:archivos){
         int index=archivo.getOriginalFilename().indexOf(".");
         String extension;
         extension="."+archivo.getOriginalFilename().substring(index+1);
         String nombreFoto= Calendar.getInstance().getTimeInMillis()+extension;
         FileUploadUtil.saveFile("product-images",nombreFoto,archivo);
-        //String absolute="C:/Users/Gabriel/Desktop/ecommerce/resuelveaquibackend/product-images/"+nombreFoto;
         String absolute= Paths.get("product-images").toFile().getAbsolutePath()+File.separator+nombreFoto;
         ThumbnailCreateUtil.thumbCreate(absolute);
-        a[i]=nombreFoto;
-        i++;}
+        a=a.concat(nombreFoto+",").trim();
+        }
         producto.setImg(a);
         producto.setThumb(a);
         try {
