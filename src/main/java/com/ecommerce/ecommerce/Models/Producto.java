@@ -1,7 +1,6 @@
 package com.ecommerce.ecommerce.Models;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table (name="producto")
@@ -10,29 +9,29 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
     private Long id;
-    @Column(name="name")
+    @Column(name="names")
     private String name;
-    @Column(name="price")
-    private double price;
-    @Column(name="stock")
-    private int stock;
-    @Column(name = "img")
-    private String[] img;
+    @Column(name="prices")
+    private Double price;
+    @Column(name="stocks")
+    private Integer stock;
+    @Column(name = "images")
+    private String img;
 
-    @Column(name = "thumb")
-    private String[] thumb;
+    @Column(name = "thumbs")
+    private String thumb;
     @Column(name = "colors")
-    private String[] colors;
-    @Column(name="company")
+    private String colors;
+    @Column(name="companies")
     private String company;
-    @Column(name="description")
+    @Column(name="descriptions")
     private String description;
     @Column(name="details")
     private String details;
 
     @Column(name="featured")
     private String featured;
-    @Column(name = "category")
+    @Column(name = "categories")
     private String category;
     @Column(name="shipping")
     private boolean shipping;
@@ -70,23 +69,23 @@ public class Producto {
 
     public void setStock(int stock) {this.stock = stock; }
 
-    public String[] getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(String[] img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
-    public String[] getThumb() {return thumb; }
+    public String getThumb() {return thumb; }
 
-    public void setThumb(String[] thumb) {this.thumb = thumb; }
+    public void setThumb(String thumb) {this.thumb = thumb; }
 
-    public String[] getColors() {
+    public String getColors() {
         return colors;
     }
 
-    public void setColors(String[] colors) {
+    public void setColors(String colors) {
         this.colors = colors;
     }
 
