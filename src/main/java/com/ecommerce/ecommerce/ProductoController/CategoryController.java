@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class CategoryController {
@@ -37,5 +38,32 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "getCat/{id}")
+    private ResponseEntity<Optional<Category>> buscar(@PathVariable("id") Long id){
+        return ResponseEntity.ok(categoryService.findByID(id));
+    }
+
+    @CrossOrigin
+    @PutMapping("/updateCat/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Category category){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(categoryService.update(id,category));
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/deleteCat/{id}")
+    public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
+        if(categoryService.findByID(id)==null)
+            return ResponseEntity.ok(Boolean.FALSE);
+        else
+            categoryService.delete(id);
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 }
