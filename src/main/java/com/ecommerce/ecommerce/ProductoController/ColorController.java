@@ -57,7 +57,7 @@ public class ColorController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/deleteCat/{id}")
+    @DeleteMapping("/deleteColor/{id}")
     public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
         if(colorService.findByID(id)==null)
             return ResponseEntity.ok(Boolean.FALSE);
