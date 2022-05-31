@@ -20,11 +20,11 @@ public class Color {
         this.id = id;
     }
 
-    public String getType() {
+    public String getName() {
         return name;
     }
 
-    public void setType(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 }
