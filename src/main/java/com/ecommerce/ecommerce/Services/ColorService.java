@@ -3,10 +3,12 @@ package com.ecommerce.ecommerce.Services;
 import com.ecommerce.ecommerce.Models.Color;
 import com.ecommerce.ecommerce.Repository.ColorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ColorService {
 
     @Autowired
