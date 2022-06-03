@@ -8,7 +8,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO )
-
     private Long id;
     @Column(name="usernames")
     private String username;
@@ -21,6 +20,8 @@ public class User {
 
     @Column(name="rols")
     private String rol;
+
+    private String token;
 
 
     public Long getId() {
@@ -61,6 +62,16 @@ public class User {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
 
