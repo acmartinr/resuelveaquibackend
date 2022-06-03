@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.Services;
 
+import com.ecommerce.ecommerce.Models.SignUp;
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class UserService {
 
     public Optional<User> findByID(Long id){
         return userRepository.findById(id);
+    }
+
+    public User signUp(SignUp user) {
+        return new User();
     }
 }
 
