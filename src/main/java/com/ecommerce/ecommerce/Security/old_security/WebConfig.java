@@ -1,8 +1,9 @@
-package com.ecommerce.ecommerce.Config;
+package com.ecommerce.ecommerce.Security.old_security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -26,7 +27,7 @@ public class WebConfig implements WebMvcConfigurer {
                     HttpMethod.PUT.name(),
                     HttpMethod.DELETE.name())
             .maxAge(MAX_AGE)
-        .allowedOrigins("*")
+        .allowedOrigins("http://localhost:3000")
         .allowCredentials(true);
     }
 }

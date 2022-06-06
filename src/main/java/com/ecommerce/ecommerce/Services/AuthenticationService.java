@@ -29,7 +29,9 @@ public class AuthenticationService {
     }
 
     public User authenticate(Credentials credentialsDto) {
-        String encodedMasterPassword = passwordEncoder.encode(CharBuffer.wrap("the-password"));
+        String encodedMasterPassword = passwordEncoder.encode(CharBuffer.wrap("1234"));
+        System.out.println(credentialsDto.getPassword());
+        System.out.println(credentialsDto.getLogin());
         if (passwordEncoder.matches(CharBuffer.wrap(credentialsDto.getPassword()), encodedMasterPassword)) {
             return new User();
         }

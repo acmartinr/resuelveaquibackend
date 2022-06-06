@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.Config;
+package com.ecommerce.ecommerce.Security.old_security;
 
 import java.io.IOException;
 import javax.servlet.FilterChain;

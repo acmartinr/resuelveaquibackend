@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.ProductoController;
+package com.ecommerce.ecommerce.Controller;
 
 
 import com.ecommerce.ecommerce.Models.Producto;
@@ -19,21 +19,14 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
-@Controller
-public class ProductoRest {
+@CrossOrigin
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
     private static final String  devUrl = "http://localhost:3000";
 
     @Autowired
     private ProductoService productoService;
-
-    @CrossOrigin
-    @GetMapping("/create")
-    public String home(Model model){
-        Producto producto=new Producto();
-        model.addAttribute("producto", producto);
-        return "home";
-    }
-
 
     @CrossOrigin
     @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
@@ -70,7 +63,7 @@ public class ProductoRest {
     }*/
 
     @CrossOrigin
-    @GetMapping("/products/all")
+    @GetMapping("/all")
     public ResponseEntity<List<Producto>> getAllProducts() {
         List<Producto> le = productoService.getAllProducts();
         System.out.println(le.size());
