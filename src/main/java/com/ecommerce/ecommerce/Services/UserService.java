@@ -3,9 +3,12 @@ package com.ecommerce.ecommerce.Services;
 import com.ecommerce.ecommerce.Models.SignUp;
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
+import com.ecommerce.ecommerce.payload.request.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.CharBuffer;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +17,12 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public User create(User user){
         return userRepository.save(user);
@@ -38,8 +47,9 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User signUp(SignUp user) {
-        return new User();
+    public User signUp(SignupRequest user) {
+        String encodedPassword= passwordEncoder.encode(CharBuffer.wrap(user.getPassword()));
+        return new User(user.getFirstName(),user.getLastName(),user.getUsername(), user.getEmail(),encodedPassword);
     }
 }
 
