@@ -10,6 +10,7 @@ import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 import com.ecommerce.ecommerce.Security.services.UserDetailsImpl;
+import com.ecommerce.ecommerce.Services.UserService;
 import com.ecommerce.ecommerce.payload.request.LoginRequest;
 import com.ecommerce.ecommerce.payload.request.SignupRequest;
 import com.ecommerce.ecommerce.payload.response.JwtResponse;
@@ -37,6 +38,9 @@ public class AuthController {
     UserRepository userRepository;
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    UserService userService;
     @Autowired
     JwtUtils jwtUtils;
 
@@ -64,9 +68,14 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
+
+
+        User userCreated = userService.signUp(signUpRequest);
+        userService.create(userCreated);
+
         // Create new user's account
         /*
-        User user = new User(signUpRequest.getUsername(),
+        User userCreated = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
         userRepository.save(user);
