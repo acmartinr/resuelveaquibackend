@@ -49,7 +49,7 @@ public class UserService {
 
     public User signUp(SignupRequest user) {
         String encodedPassword= passwordEncoder.encode(CharBuffer.wrap(user.getPassword()));
-        return new User(user.getFirstName(),user.getLastName(),user.getUsername(), user.getEmail(),encodedPassword);
+        return new User(user.getFirstname(),user.getLastname(),user.getUsername(), user.getEmail(),encodedPassword,"1");
     }
 }
 
