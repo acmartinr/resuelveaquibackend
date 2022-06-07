@@ -10,10 +10,10 @@ public class SignupRequest {
     @NotBlank
     @Size(max = 50)
     private String firstname;
-
     @NotBlank
     @Size(max = 50)
     private String lastname;
+
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -40,19 +40,19 @@ public class SignupRequest {
         this.password=password;
     }
 
-    public String getFirstName() {
+    public String getFirstname() {
         return firstname;
     }
 
-    public void setFirstName(String firstname) {
+    public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
-    public String getLastName() {
+    public String getLastname() {
         return lastname;
     }
 
-    public void setLastName(String lastname) {
+    public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 
