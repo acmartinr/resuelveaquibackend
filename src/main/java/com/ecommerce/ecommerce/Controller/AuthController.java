@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.Controller;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,11 +11,13 @@ import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 import com.ecommerce.ecommerce.Security.services.UserDetailsImpl;
+import com.ecommerce.ecommerce.Services.EmailService;
 import com.ecommerce.ecommerce.Services.UserService;
 import com.ecommerce.ecommerce.payload.request.LoginRequest;
 import com.ecommerce.ecommerce.payload.request.SignupRequest;
 import com.ecommerce.ecommerce.payload.response.JwtResponse;
 import com.ecommerce.ecommerce.payload.response.MessageResponse;
+import com.nylas.RequestFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -58,6 +61,7 @@ public class AuthController {
     }
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        System.out.println(signUpRequest.getEmail());
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
@@ -81,6 +85,16 @@ public class AuthController {
         userRepository.save(user);
 
          */
+
+        EmailService emailService  = new EmailService();
+        try{
+            emailService.sendEmail(signUpRequest.getEmail(),"Hola bienvenido a resuelveAqui","Querido usuario");
+        }catch (IOException e){
+            e.printStackTrace();
+        } catch (RequestFailedException e) {
+            e.printStackTrace();
+        }
+
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }
