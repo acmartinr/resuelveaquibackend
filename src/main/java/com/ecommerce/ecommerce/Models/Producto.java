@@ -30,7 +30,7 @@ public class Producto {
     private String details;
 
     @Column(name="featured")
-    private String featured;
+    private boolean featured;
     @Column(name = "categories")
     private String category;
     @Column(name="shipping")
@@ -115,9 +115,9 @@ public class Producto {
 
     public void setCategory(String category) {this.category = category; }
 
-    public String getFeatured() {return featured; }
+    public boolean getFeatured() {return featured; }
 
-    public void setFeatured(String featured) {this.featured = featured; }
+    public void setFeatured(boolean featured) {this.featured = featured; }
 
     public boolean isShipping() {
         return shipping;
