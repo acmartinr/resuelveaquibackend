@@ -34,12 +34,13 @@ public class User {
     public User(){
         super();
     }
-    public User(String firstname, String lastname, String username, String email, String password){
+    public User(String firstname, String lastname, String username, String email, String password,String rol){
         this.firstname=firstname;
         this.lastname=lastname;
         this.username=username;
         this.email=email;
         this.password=password;
+        this.rol = rol;
     }
 
 
