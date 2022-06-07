@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@CrossOrigin
+@RestController
+@RequestMapping("/api/category")
 public class CategoryController {
     private static final String  devUrl = "http://localhost:3000";
 
