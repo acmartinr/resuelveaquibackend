@@ -1,6 +1,9 @@
 package com.ecommerce.ecommerce.Models;
 
+import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
+
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "users")
@@ -12,9 +15,6 @@ public class User {
 
     @Column(name="firstnames")
     private String firstname;
-
-
-
     @Column(name="lastnames")
     private String lastname;
     @Column(name="usernames")
@@ -28,6 +28,7 @@ public class User {
 
     @Column(name="rols")
     private String rol;
+
 
     private String token;
 
@@ -99,9 +100,6 @@ public class User {
     public void setRol(String rol) {
         this.rol = rol;
     }
-
-
-
     public String getToken() {
         return token;
     }
@@ -109,6 +107,7 @@ public class User {
     public void setToken(String token) {
         this.token = token;
     }
+
 
 
 
