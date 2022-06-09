@@ -51,5 +51,30 @@ public class UserService {
         String encodedPassword= passwordEncoder.encode(CharBuffer.wrap(user.getPassword()));
         return new User(user.getFirstname(),user.getLastname(),user.getUsername(), user.getEmail(),encodedPassword,"1");
     }
+
+    public Optional<User> getByUsername(String nombreUsuario){
+        return userRepository.findByUsername(nombreUsuario);
+    }
+
+    public Optional<User> getByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+    public Optional<User> getByTokenPassword(String tokenPassword){
+        return userRepository.findByToken(tokenPassword);
+    }
+
+    public boolean existsByUsername(String nombreUsuario){
+        return userRepository.existsByUsername(nombreUsuario);
+    }
+
+    public boolean existsByEmail(String email){
+        return userRepository.existsByEmail(email);
+    }
+
+    public void save(User user){
+        userRepository.save(user);
+    }
+
 }
 
