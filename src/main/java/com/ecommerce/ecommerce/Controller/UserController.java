@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@CrossOrigin
+@RestController
+@RequestMapping("/api/users")
 public class UserController {
 
     private static final String  devUrl = "http://localhost:3000";
@@ -21,7 +23,7 @@ public class UserController {
     UserService userService;
 
     @CrossOrigin
-    @GetMapping("/users")
+    @GetMapping("/all")
     private ResponseEntity<List<User>> list(){
         return ResponseEntity.ok(userService.getAllUsers());
     }
@@ -41,13 +43,13 @@ public class UserController {
     }
 
     @CrossOrigin
-    @GetMapping(value = "getUser/{id}")
+    @GetMapping(value = "/{id}")
     private ResponseEntity<Optional<User>> buscar(@PathVariable("id") Long id){
         return ResponseEntity.ok(userService.findByID(id));
     }
 
     @CrossOrigin
-    @PutMapping("/updateUser/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody User user){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.update(id,user));
@@ -58,7 +60,7 @@ public class UserController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
         if(userService.findByID(id)==null)
             return ResponseEntity.ok(Boolean.FALSE);
