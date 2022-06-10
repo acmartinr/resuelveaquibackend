@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/email-password/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/api/category/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/api/users/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/api/products/**").permitAll() //permit request withoit login to that url
