@@ -14,6 +14,10 @@ public class SignupRequest {
     private String lastname;
 
     @NotBlank
+    @Size(min = 3, max = 100)
+    private String address;
+
+    @NotBlank
     @Size(min = 3, max = 20)
     private String username;
 
@@ -31,9 +35,10 @@ public class SignupRequest {
         super();
     }
 
-    public SignupRequest(String firstname, String lastname, String username, String email, String password){
+    public SignupRequest(String firstname, String lastname, String address, String username, String email, String password){
         this.firstname=firstname;
         this.lastname=lastname;
+        this.address=address;
         this.username=username;
         this.email=email;
         this.password=password;
@@ -53,6 +58,14 @@ public class SignupRequest {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getUsername() {
