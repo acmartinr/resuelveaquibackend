@@ -15,9 +15,11 @@ public class Producto {
     private Double price;
     @Column(name="stocks")
     private Integer stock;
+
+    @Column(name="codes")
+    private String code;
     @Column(name = "images")
     private String img;
-
     @Column(name = "thumbs")
     private String thumb;
     @Column(name = "colors")
@@ -40,6 +42,22 @@ public class Producto {
         super();
     }
 
+    public Producto(String name,Double price,Integer stock,String code,String category, boolean shipping) {
+        this.name=name;
+        this.price=price;
+        this.stock=stock;
+        this.code=code;
+        this.category=category;
+        this.shipping=shipping;
+    }
+
+    public Producto(String name,Double price,String code,String category, boolean shipping) {
+        this.name=name;
+        this.price=price;
+        this.code=code;
+        this.category=category;
+        this.shipping=shipping;
+    }
 
     public Long getId() {
         return id;
@@ -65,9 +83,25 @@ public class Producto {
         this.price = price;
     }
 
-    public int getStock() {return stock; }
+    public int getStock() {return this.stock; }
+
+    public boolean noExistence() {
+        return this.stock <= 0;
+    }
 
     public void setStock(int stock) {this.stock = stock; }
+
+    public void subtracExistence(int stock) {
+        this.stock -= stock;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getImg() {
         return img;
