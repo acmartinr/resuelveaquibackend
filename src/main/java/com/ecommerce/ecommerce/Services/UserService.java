@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.Services;
 
-import com.ecommerce.ecommerce.Models.SignUp;
+
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.payload.request.SignupRequest;
@@ -49,7 +49,7 @@ public class UserService {
 
     public User signUp(SignupRequest user) {
         String encodedPassword= passwordEncoder.encode(CharBuffer.wrap(user.getPassword()));
-        return new User(user.getFirstname(),user.getLastname(),user.getUsername(), user.getEmail(),encodedPassword,"1");
+        return new User(user.getFirstname(),user.getLastname(),user.getAddress(),user.getUsername(), user.getEmail(),encodedPassword,"1");
     }
 
     public Optional<User> getByUsername(String nombreUsuario){
