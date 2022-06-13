@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.Models;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -26,18 +27,23 @@ public class User {
     @Column(name="emails")
     private String email;
 
+    @Column(name="addresses")
+    private String address;
+
     @Column(name="rols")
     private String rol;
-
-
     private String token;
+
+    @OneToMany(mappedBy = "shopping", cascade = CascadeType.ALL)
+    private Set<Sale> sales;
 
     public User(){
         super();
     }
-    public User(String firstname, String lastname, String username, String email, String password,String rol){
+    public User(String firstname, String lastname,String address, String username, String email, String password,String rol){
         this.firstname=firstname;
         this.lastname=lastname;
+        this.address=address;
         this.username=username;
         this.email=email;
         this.password=password;
@@ -67,6 +73,14 @@ public class User {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getUsername() {
@@ -108,8 +122,11 @@ public class User {
         this.token = token;
     }
 
+    public Set<Sale> getSale() {
+        return sales;
+    }
 
-
-
-
+    public void setSale(Set<Sale> sales) {
+        this.sales = sales;
+    }
 }
