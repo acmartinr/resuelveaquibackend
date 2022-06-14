@@ -12,8 +12,10 @@ public class Sale {
     private Long id;
     private String dateAndTime;
 
+    private Double amount;
+
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
-    private Set<ProductSold> products;
+    private Set<Producto> products;
 
     @ManyToOne
     @JoinColumn(name = "shopping_id", nullable = false)
@@ -31,12 +33,13 @@ public class Sale {
         this.id = id;
     }
 
-    public Double getTotal() {
-        Double total = 0D;
-        for (ProductSold productSold : this.products) {
-            total += productSold.getTotal();
+    public Double getAmount() {
+        Double amount = 0D;
+        for (Producto producto : this.products) {
+            amount += producto.getTotal();
         }
-        return total;
+        this.amount=amount;
+        return this.amount;
     }
 
     public String getDateAndTime() {
@@ -47,11 +50,16 @@ public class Sale {
         this.dateAndTime = dateAndTime;
     }
 
-    public Set<ProductSold > getProducts() {
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public Set<Producto> getProducts() {
         return products;
     }
 
-    public void setProducts(Set<ProductSold > productos) {
+    public void setProducts(Set<Producto > productos) {
         this.products = productos;
     }
 
