@@ -37,6 +37,11 @@ public class Producto {
     private String category;
     @Column(name="shipping")
     private boolean shipping;
+    private Integer quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "cod_id")
+    private Sale sale;
 
     public Producto() {
         super();
@@ -57,6 +62,10 @@ public class Producto {
         this.code=code;
         this.category=category;
         this.shipping=shipping;
+    }
+
+    public Producto(String name, Double price,String code, String category, boolean shipping, Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Long getId() {
@@ -159,5 +168,25 @@ public class Producto {
 
     public void setShipping(boolean shipping) {
         this.shipping = shipping;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getTotal() {
+        return this.quantity * this.price;
+    }
+
+    public void increaseQuantity() {
+        this.quantity++;
+    }
+
+    public Integer getCantidad() {
+        return quantity;
     }
 }
