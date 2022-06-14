@@ -11,15 +11,13 @@ public class ProductSold {
     private Integer quantity;
     private Double price;
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "sale_id", nullable = false)
-    private Sale sale;
+
 
     public ProductSold(Integer quantity, Double price, String name, Sale sale) {
         this.quantity = quantity;
         this.price = price;
         this.name = name;
-        this.sale = sale;
+        //this.sale = sale;
     }
 
     public ProductSold() {
@@ -29,13 +27,13 @@ public class ProductSold {
         return this.quantity * this.price;
     }
 
-    public Sale getSale() {
+   /* public Sale getSale() {
         return sale;
     }
 
     public void setSale(Sale sale) {
         this.sale = sale;
-    }
+    }*/
 
     public Double getPrice() {
         return price;
