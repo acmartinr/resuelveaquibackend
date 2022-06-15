@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.Controller;
 
 import com.ecommerce.ecommerce.Models.Producto;
 import com.ecommerce.ecommerce.Models.Sale;
+import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.SalesRepository;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,12 @@ public class SalesController {
         Set<Producto> products=new HashSet<>(Arrays.asList(productos));
         sale.setProducts(products);
         sale.setUserShopping(userRepository.findById(id).get());
+        salesRepository.save(sale);
         return ResponseEntity.ok("Venta realizada correctamente");
+    }
+
+    @GetMapping(value="/getAll_sale")
+    public ResponseEntity<List<Sale>> getAllSale() throws IOException {
+        return ResponseEntity.ok(salesRepository.findAll());
     }
 }
