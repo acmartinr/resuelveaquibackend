@@ -9,23 +9,26 @@ public class ProductSold {
     private Long id;
 
     private Integer quantity;
-    private Double price;
-    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Producto product;
+
+    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinColumn(name = "cod_id")
+    private Sale sale;
 
 
-    public ProductSold(Integer quantity, Double price, String name, Sale sale) {
+    public ProductSold() {
+        super();
+    }
+    public ProductSold(Integer quantity) {
         this.quantity = quantity;
-        this.price = price;
-        this.name = name;
+
         //this.sale = sale;
     }
 
-    public ProductSold() {
-    }
 
-    public Double getTotal() {
-        return this.quantity * this.price;
-    }
 
    /* public Sale getSale() {
         return sale;
@@ -35,13 +38,6 @@ public class ProductSold {
         this.sale = sale;
     }*/
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double precio) {
-        this.price = precio;
-    }
 
     public Integer getQuantity() {
         return quantity;
@@ -51,10 +47,27 @@ public class ProductSold {
         this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
+    public Long getId() {
+        return id;
     }
 
-    public void setName(String name) {this.name = name;}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-   }
+    public Producto getProduct() {
+        return product;
+    }
+
+    public void setProduct(Producto product) {
+        this.product = product;
+    }
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
+}
