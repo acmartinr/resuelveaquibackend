@@ -30,7 +30,6 @@ public class Producto {
     private String description;
     @Column(name="details")
     private String details;
-
     @Column(name="featured")
     private boolean featured;
     @Column(name = "categories")
@@ -39,9 +38,7 @@ public class Producto {
     private boolean shipping;
     private Integer quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "cod_id")
-    private Sale sale;
+
 
     public Producto() {
         super();
@@ -56,7 +53,7 @@ public class Producto {
         this.shipping=shipping;
     }
 
-    public Producto(String name,Double price,String code,String category, boolean shipping) {
+    /*public Producto(String name,Double price,String code,String category, boolean shipping) {
         this.name=name;
         this.price=price;
         this.code=code;
@@ -66,7 +63,7 @@ public class Producto {
 
     public Producto(String name, Double price,String code, String category, boolean shipping, Integer quantity) {
         this.quantity = quantity;
-    }
+    }*/
 
     public Long getId() {
         return id;
