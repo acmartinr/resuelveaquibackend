@@ -31,7 +31,7 @@ public class Producto {
     @Column(name="details")
     private String details;
     @Column(name="featured")
-    private boolean featured;
+    private Boolean featured;
     @Column(name = "categories")
     private String category;
     @Column(name="shipping")
@@ -44,7 +44,7 @@ public class Producto {
         super();
     }
 
-    public Producto(String name,Double price,Integer stock,String code,String category, boolean shipping) {
+    public Producto(String name,Double price,Integer stock,String code,String category, Boolean shipping) {
         this.name=name;
         this.price=price;
         this.stock=stock;
