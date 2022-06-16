@@ -17,14 +17,15 @@ public class ProductSold {
     @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinColumn(name = "cod_id")
     private Sale sale;
+    private Long idp;
 
 
     public ProductSold() {
         super();
     }
-    public ProductSold(Integer quantity) {
+    public ProductSold(Long idp,Integer quantity) {
         this.quantity = quantity;
-
+        this.idp=idp;
         //this.sale = sale;
     }
 
@@ -53,6 +54,14 @@ public class ProductSold {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdp() {
+        return idp;
+    }
+
+    public void setIdp(Long i) {
+        this.idp = i;
     }
 
     public Producto getProduct() {
