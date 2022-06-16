@@ -15,7 +15,7 @@ public class Sale {
     private Double amount;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
-    private Set<Producto> products;
+    private Set<ProductSold> products;
 
     @ManyToOne
     @JoinColumn(name = "shopping_id", nullable = false)
@@ -34,12 +34,7 @@ public class Sale {
     }
 
     public Double getAmount() {
-        Double amount = 0D;
-        for (Producto producto : this.products) {
-            amount += producto.getTotal();
-        }
-        this.amount=amount;
-        return this.amount;
+        return amount;
     }
 
     public String getDateAndTime() {
@@ -55,11 +50,11 @@ public class Sale {
         this.amount = amount;
     }
 
-    public Set<Producto> getProducts() {
+    public Set<ProductSold> getProducts() {
         return products;
     }
 
-    public void setProducts(Set<Producto > productos) {
+    public void setProductsSolds(Set<ProductSold> productos) {
         this.products = productos;
     }
 
