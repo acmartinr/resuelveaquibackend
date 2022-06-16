@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.Models;
+/*package com.ecommerce.ecommerce.Models;
 
 public class ProductForSale extends Producto {
     private Integer quantity;
@@ -20,4 +20,4 @@ public class ProductForSale extends Producto {
     public Double getTotal() {
         return this.getPrice() * this.quantity;
     }
-}
+}*/
