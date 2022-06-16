@@ -42,16 +42,17 @@ public class SalesController {
 
     @PostMapping(value="/create_sale")
     public ResponseEntity<String> createSale(@RequestPart ProductSold[] productos,@RequestPart double amount,
-                                             @RequestPart long id) throws IOException {
+                                             @RequestPart Long id) throws IOException {
         Sale s=new Sale();
         Sale sale=new Sale();
         Set<ProductSold> products=new HashSet<>(Arrays.asList(productos));
         sale.setAmount(amount);
-        sale.setProductsSolds(products);
+        //sale.setProductsSolds(products);
         sale.setUserShopping(userRepository.findById(id).get());
         s=salesRepository.save(sale);
         for (ProductSold productSold:productos){
-            Producto pr=productSold.getProduct();
+            Producto pr=productoRepository.findById(productSold.getIdp()).get();
+            pr.setStock(10);
             pr.subtracExistence(productSold.getQuantity());
             productoService.update(pr.getId(),pr);
             productSold.setSale(s);
