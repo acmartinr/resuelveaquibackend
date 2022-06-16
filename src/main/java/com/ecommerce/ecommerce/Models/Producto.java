@@ -36,7 +36,7 @@ public class Producto {
     private String category;
     @Column(name="shipping")
     private boolean shipping;
-    private Integer quantity;
+    //private Integer quantity;
 
 
 
@@ -167,7 +167,7 @@ public class Producto {
         this.shipping = shipping;
     }
 
-    public Integer getQuantity() {
+   /* public Integer getQuantity() {
         return quantity;
     }
 
@@ -185,5 +185,5 @@ public class Producto {
 
     public Integer getCantidad() {
         return quantity;
-    }
+    }*/
 }
