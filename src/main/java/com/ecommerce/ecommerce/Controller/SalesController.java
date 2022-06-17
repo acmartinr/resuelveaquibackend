@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 
+@CrossOrigin
 @Controller
 @RequestMapping(path = "/api/sales")
 public class SalesController {
