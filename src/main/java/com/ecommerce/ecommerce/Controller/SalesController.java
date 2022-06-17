@@ -55,6 +55,7 @@ public class SalesController {
             pr.subtracExistence(productSold.getQuantity());
             productoService.update(pr.getId(),pr);
             productSold.setSale(s);
+            productSold.setProduct(pr);
             productSoldRepository.save(productSold);
         }
         return ResponseEntity.ok("Venta realizada correctamente");
