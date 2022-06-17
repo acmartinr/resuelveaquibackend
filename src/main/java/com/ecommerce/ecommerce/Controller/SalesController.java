@@ -51,7 +51,7 @@ public class SalesController {
         sale.setUserShopping(userRepository.findById(id).get());
         s=salesRepository.save(sale);
         for (ProductSold productSold:productos){
-            Producto pr=productoRepository.findById(productSold.getIdp()).get();
+            Producto pr=productoRepository.findById(productSold.getId()).get();
             pr.setStock(10);
             pr.subtracExistence(productSold.getQuantity());
             productoService.update(pr.getId(),pr);
