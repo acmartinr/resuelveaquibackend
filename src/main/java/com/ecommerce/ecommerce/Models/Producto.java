@@ -36,6 +36,12 @@ public class Producto {
     private String category;
     @Column(name="shipping")
     private boolean shipping;
+
+    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinColumn(name = "shop_id")
+    ShoppingCar shop;
+
+
     //private Integer quantity;
 
 
