@@ -7,17 +7,13 @@ public class ProductSold {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private Integer quantity;
-
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Producto product;
-
     @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinColumn(name = "cod_id")
     private Sale sale;
-
 
     public ProductSold() {
         super();
