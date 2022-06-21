@@ -1,13 +1,7 @@
 package com.ecommerce.ecommerce.Controller;
 
-import com.ecommerce.ecommerce.Models.ProductSold;
-import com.ecommerce.ecommerce.Models.Producto;
-import com.ecommerce.ecommerce.Models.Sale;
-import com.ecommerce.ecommerce.Models.User;
-import com.ecommerce.ecommerce.Repository.ProductSoldRepository;
-import com.ecommerce.ecommerce.Repository.ProductoRepository;
-import com.ecommerce.ecommerce.Repository.SalesRepository;
-import com.ecommerce.ecommerce.Repository.UserRepository;
+import com.ecommerce.ecommerce.Models.*;
+import com.ecommerce.ecommerce.Repository.*;
 import com.ecommerce.ecommerce.Services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +28,8 @@ public class SalesController {
     ProductoRepository productoRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ShoppingCarRepository shoppingCarRepository;
 
     @GetMapping(value = "/")
     public ResponseEntity<List<Sale>> showSales() {
@@ -53,6 +49,8 @@ public class SalesController {
         s=salesRepository.save(sale);
         for (ProductSold productSold:productos){
             Producto pr=productoRepository.findById(productSold.getId()).get();
+            if(pr.getStock()< productSold.getQuantity())
+                return ResponseEntity.ok("Solo hay una disponibilidad total de "+pr.getStock()+"para"+pr.getName());
             pr.subtracExistence(productSold.getQuantity());
             productoService.update(pr.getId(),pr);
             productSold.setSale(s);
@@ -67,19 +65,27 @@ public class SalesController {
         return ResponseEntity.ok(salesRepository.findAll());
     }
 
-    private List<Producto> obtenerCarrito() {
-        List<Producto> carrito = new ArrayList<Producto>();
-        return carrito;
+    @PostMapping(value = "/addToCar")
+    public ResponseEntity<String> agregarAlCarrito(@RequestPart Producto producto,@RequestPart Long id,
+                                                   @RequestPart int cant) {
+        Set<Producto> prod=new HashSet<>();
+        prod.add(producto);
+        ShoppingCar shoppingCar = new ShoppingCar();
+        Producto productoBuscado = productoRepository.findById(producto.getId()).get();
+        if (productoBuscado==null){
+            return ResponseEntity.ok("El producto no existe");
+        }
+        shoppingCar.setProduct(prod);
+        shoppingCar.setQuantity(cant);
+        shoppingCar.setUser(userRepository.getById(id));
+        shoppingCarRepository.save(shoppingCar);
+        return ResponseEntity.ok("Producto agregado al carrito correctamente" );
     }
 
-    @PostMapping(value = "/agregar")
-    public ResponseEntity<String> agregarAlCarrito(@RequestPart Producto producto) {
-        List<Producto> carrito = new ArrayList<Producto>();
-        Producto productoBuscadoPorCodigo = productoRepository.findFirstByCode(producto.getCode());
-        if (productoBuscadoPorCodigo == null) {
-            return ResponseEntity.ok("El producto con el código " + producto.getCode() + " no existe");
-        }
-
-        return ResponseEntity.ok("" );
+    @GetMapping(value = "/limpiar")
+    public ResponseEntity<ShoppingCar> limpiarCarrito(@RequestPart Long id) {
+        ShoppingCar shoppingCar = new ShoppingCar();
+        shoppingCar.setUser(userRepository.getById(id));
+        return ResponseEntity.ok(shoppingCar);
     }
 }
