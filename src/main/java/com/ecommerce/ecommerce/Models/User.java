@@ -34,8 +34,8 @@ public class User {
     private String rol;
     private String token;
 
-    /*@OneToMany(mappedBy = "shopping", cascade = CascadeType.ALL)
-    private Set<Sale> sales;*/
+    @OneToMany(mappedBy = "userOrder", cascade = CascadeType.ALL)
+    private Set<Order> orders;
 
     public User(){
         super();
@@ -121,6 +121,8 @@ public class User {
     public void setToken(String token) {
         this.token = token;
     }
+
+
 
    /* public Set<Sale> getSale() {
         return sales;
