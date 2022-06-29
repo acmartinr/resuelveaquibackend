@@ -34,6 +34,10 @@ public class User {
     private String rol;
     private String token;
 
+    @JoinColumn(name = "shopCar_id", unique = true)
+    @OneToOne(cascade = CascadeType.ALL)
+    private ShoppingCar shoppingCar;
+
     @OneToMany(mappedBy = "userOrder", cascade = CascadeType.ALL)
     private Set<Order> orders;
 
@@ -122,9 +126,15 @@ public class User {
         this.token = token;
     }
 
+    public ShoppingCar getShoppingCar() {
+        return shoppingCar;
+    }
 
+    public void setShoppingCar(ShoppingCar shoppingCar) {
+        this.shoppingCar = shoppingCar;
+    }
 
-   /* public Set<Sale> getSale() {
+    /* public Set<Sale> getSale() {
         return sales;
     }
 
