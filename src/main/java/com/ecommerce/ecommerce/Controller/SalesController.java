@@ -1,9 +1,12 @@
-package com.ecommerce.ecommerce.Controller;
+package com.ecommerce.ecommerce.Security.Controller;
 
 import com.ecommerce.ecommerce.Models.*;
 import com.ecommerce.ecommerce.Repository.*;
+import com.ecommerce.ecommerce.Services.PaymentService;
 import com.ecommerce.ecommerce.Services.ProductoService;
+import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,8 @@ public class SalesController {
     UserRepository userRepository;
     @Autowired
     ShoppingCarRepository shoppingCarRepository;
+    @Autowired
+    PaymentService service;
 
     @GetMapping(value = "/")
     public ResponseEntity<List<Sale>> showSales() {
@@ -39,7 +44,7 @@ public class SalesController {
 
     @PostMapping(value="/create_sale")
     public ResponseEntity<String> createSale(@RequestPart ProductSold[] productos,@RequestPart double amount,
-                                             @RequestPart Long id) throws IOException {
+                                             @RequestPart Long id,@RequestPart PaymentRequest request) throws IOException, StripeException {
         Sale s=new Sale();
         Sale sale=new Sale();
         Set<ProductSold> products=new HashSet<>(Arrays.asList(productos));
@@ -57,8 +62,18 @@ public class SalesController {
             productSold.setProduct(pr);
             productSoldRepository.save(productSold);
         }
-        return ResponseEntity.ok("Venta realizada correctamente");
+        String chargeId= service.charge(request);
+        return chargeId!=null? new ResponseEntity<String>(chargeId, HttpStatus.OK):
+                new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);
+        //return ResponseEntity.ok("Venta realizada correctamente");
     }
+
+    /*@PostMapping(value="/payment")
+    public ResponseEntity<String> completePayment(@RequestBody PaymentRequest request) throws StripeException {
+        String chargeId= service.charge(request);
+        return chargeId!=null? new ResponseEntity<String>(chargeId, HttpStatus.OK):
+                new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);
+    }*/
 
     @GetMapping(value="/getAll_sale")
     public ResponseEntity<List<Sale>> getAllSale() throws IOException {
@@ -77,7 +92,6 @@ public class SalesController {
         }
         shoppingCar.setProduct(prod);
         shoppingCar.setQuantity(cant);
-        shoppingCar.setUser(userRepository.getById(id));
         shoppingCarRepository.save(shoppingCar);
         return ResponseEntity.ok("Producto agregado al carrito correctamente" );
     }
@@ -85,7 +99,6 @@ public class SalesController {
     @GetMapping(value = "/limpiar")
     public ResponseEntity<ShoppingCar> limpiarCarrito(@RequestPart Long id) {
         ShoppingCar shoppingCar = new ShoppingCar();
-        shoppingCar.setUser(userRepository.getById(id));
         return ResponseEntity.ok(shoppingCar);
     }
 }
