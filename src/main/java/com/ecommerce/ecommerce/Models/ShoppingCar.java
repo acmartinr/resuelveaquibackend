@@ -8,9 +8,7 @@ public class ShoppingCar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @JoinColumn(name = "user_id", unique = true)
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
+
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     private Set<Producto> product;
     private Integer quantity;
@@ -46,11 +44,5 @@ public class ShoppingCar {
         this.product = product;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
