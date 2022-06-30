@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.Security.Controller;
+package com.ecommerce.ecommerce.Controller;
 
 import com.ecommerce.ecommerce.Models.Order;
 import com.ecommerce.ecommerce.Models.User;

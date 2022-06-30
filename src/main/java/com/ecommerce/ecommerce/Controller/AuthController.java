@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.Security.Controller;
+package com.ecommerce.ecommerce.Controller;
 
 import java.io.IOException;
 import java.util.HashSet;
