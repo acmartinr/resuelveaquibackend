@@ -23,18 +23,24 @@ public class PDFGenerator {
             contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
             contentStream.newLineAtOffset( 20, page.getMediaBox().getHeight() - 52);
             contentStream.showText("Name of the user: "+sale.getUserShopping().getFirstname()+" "+sale.getUserShopping().getLastname());
+            contentStream.endText();
             for (ProductSold productSold:productos){
                 int i=2;
+                contentStream.beginText();
+                contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
                 contentStream.newLineAtOffset( 20, page.getMediaBox().getHeight() - (52*i));
-            contentStream.showText("name of the product: "+productSold.getProduct().getName()+" "+"price: "+productSold.getProduct().getPrice());
-            contentStream.showText("quantity of product: "+productSold.getQuantity()+" "+"amount of this product: "+productSold.getQuantity()*productSold.getProduct().getPrice());
+                contentStream.showText("name of the product: "+productSold.getProduct().getName()+" "+"price: "+productSold.getProduct().getPrice());
+                contentStream.showText("quantity of product: "+productSold.getQuantity()+" "+"amount of this product: "+productSold.getQuantity()*productSold.getProduct().getPrice());
+                contentStream.endText();
             i++;
             }
+            contentStream.beginText();
+            contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
             contentStream.showText("Total amount: "+amount);
             contentStream.endText();
             contentStream.close();
 
-            document.save("bill_payment.pdf");
+            document.save("invoice\\bill_payment.pdf");
 
         }
     }
