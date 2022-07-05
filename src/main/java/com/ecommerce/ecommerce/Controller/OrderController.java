@@ -1,7 +1,9 @@
 package com.ecommerce.ecommerce.Controller;
 
 import com.ecommerce.ecommerce.Models.Order;
+import com.ecommerce.ecommerce.Models.Sale;
 import com.ecommerce.ecommerce.Models.User;
+import com.ecommerce.ecommerce.Repository.OrderRepository;
 import com.ecommerce.ecommerce.Repository.SalesRepository;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.Services.OrderService;
@@ -13,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/api/orders")
@@ -24,6 +23,8 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderRepository orderRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -74,5 +75,22 @@ public class OrderController {
         else
             orderService.delete(id);
         return ResponseEntity.ok(Boolean.TRUE);
+    }
+
+   /* @GetMapping(value = "/getOrderUser")
+    public List<Order> getShopUser(@RequestPart Long id) {
+        List<Order> lo=new ArrayList<>();
+        List<Order> orders = orderService.getAllOrders();
+        for(Order order:orders){
+            if (order.getUserOrder().getId()==id)
+                lo.add(order);
+        }
+        return lo;
+    }*/
+
+    @GetMapping(value = "/getOrderUser/{id}")
+    public List<Order> getShopUser(@PathVariable("id") Long id) {
+        User user=userService.findByID(id).get();
+        return orderRepository.orderByUser(user);
     }
 }
