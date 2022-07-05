@@ -11,7 +11,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 public class PDFGenerator {
 
 
-    public static void generatePDF(Sale sale, ProductSold[] productos, double amount)throws Exception {
+    public static String generatePDF(Sale sale, ProductSold[] productos, double amount)throws Exception {
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage(PDRectangle.A6);
             document.addPage(page);
@@ -29,7 +29,7 @@ public class PDFGenerator {
                 contentStream.beginText();
                 contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
                 contentStream.newLineAtOffset( 20, page.getMediaBox().getHeight() - (52*i));
-                contentStream.showText("name of the product: "+productSold.getProduct().getName()+" "+"price: "+productSold.getProduct().getPrice());
+                contentStream.showText("name of the product: "+productSold.getProduct().getName()+" "+"price: "+productSold.getProduct().getPrice());/*+productSold.getProduct().getPrice()*/
                 contentStream.showText("quantity of product: "+productSold.getQuantity()+" "+"amount of this product: "+productSold.getQuantity()*productSold.getProduct().getPrice());
                 contentStream.endText();
             i++;
@@ -39,8 +39,10 @@ public class PDFGenerator {
             contentStream.showText("Total amount: "+amount);
             contentStream.endText();
             contentStream.close();
+            String pdf=java.util.UUID.randomUUID().toString();
 
-            document.save("invoice\\bill_payment.pdf");
+            document.save("invoice\\"+pdf+".pdf");
+            return pdf+".pdf";
 
         }
     }
