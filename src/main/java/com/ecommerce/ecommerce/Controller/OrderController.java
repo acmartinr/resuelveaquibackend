@@ -85,7 +85,7 @@ public class OrderController {
     }*/
 
     @GetMapping(value = "/getOrderUser/{id}")
-    public ResponseEntity<List<Order>> getShopUser(@PathVariable("id") Long id) {
+    public ResponseEntity<List<Order>> getOrderUser(@PathVariable("id") Long id) {
         User user=userService.findByID(id).get();
         return ResponseEntity.ok(orderRepository.orderByUser(user));
     }
