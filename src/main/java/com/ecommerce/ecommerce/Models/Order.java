@@ -19,6 +19,14 @@ public class Order {
     private String name;
     @Column(name = "telefs")
     private String telef;
+    @Column(name = "cities")
+    private String city;
+    @Column(name = "provinces")
+    private String province;
+    @Column(name = "zipcodes")
+    private String zipcode;
+    @Column(name = "bill_payments")
+    private String bill_payment;
 
     @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "order_id")
@@ -32,12 +40,24 @@ public class Order {
         super();
     }
 
-    public Order(String dateAndTime, Integer status, String address, String name, String telef) {
+    /*public Order(String dateAndTime, Integer status, String address, String name, String telef) {
         this.dateAndTime = dateAndTime;
         this.status = status;
         this.address = address;
         this.name = name;
         this.telef = telef;
+    }*/
+
+    public Order(String dateAndTime, Integer status, String address, String name, String telef,
+                 String city, String province, String zipcode) {
+        this.dateAndTime = dateAndTime;
+        this.status = status;
+        this.address = address;
+        this.name = name;
+        this.telef = telef;
+        this.city = city;
+        this.province = province;
+        this.zipcode = zipcode;
     }
 
     public Long getId() {
@@ -102,5 +122,37 @@ public class Order {
 
     public void setSale(Sale sale) {
         this.sale = sale;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    public String getBill_payment() {
+        return bill_payment;
+    }
+
+    public void setBill_payment(String bill_payment) {
+        this.bill_payment = bill_payment;
     }
 }
