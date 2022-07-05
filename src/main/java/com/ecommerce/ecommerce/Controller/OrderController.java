@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.*;
 
+@CrossOrigin
 @Controller
 @RequestMapping("/api/orders")
 public class OrderController {
@@ -33,14 +34,12 @@ public class OrderController {
     @Autowired
     private SalesRepository salesRepository;
 
-    @CrossOrigin
     @GetMapping("/")
     private ResponseEntity<List<Order>> list(){
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
 
-    @CrossOrigin
     @RequestMapping(value="/createOrder")
     private ResponseEntity<String> create(@RequestPart Order order, @RequestPart Long idu,
                                           @RequestPart Long ids) throws IOException {
@@ -50,13 +49,11 @@ public class OrderController {
         return ResponseEntity.ok("Orden registrada correctamente");
     }
 
-    @CrossOrigin
     @GetMapping(value = "getOrder/{id}")
     private ResponseEntity<Optional<Order>> buscar(@PathVariable("id") Long id){
         return ResponseEntity.ok(orderService.findByID(id));
     }
 
-    @CrossOrigin
     @PutMapping("/updateOrder/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Order order){
         try {
@@ -67,7 +64,6 @@ public class OrderController {
         }
     }
 
-    @CrossOrigin
     @DeleteMapping("/deleteOrder/{id}")
     public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
         if(orderService.findByID(id)==null)
@@ -89,8 +85,8 @@ public class OrderController {
     }*/
 
     @GetMapping(value = "/getOrderUser/{id}")
-    public List<Order> getShopUser(@PathVariable("id") Long id) {
+    public ResponseEntity<List<Order>> getShopUser(@PathVariable("id") Long id) {
         User user=userService.findByID(id).get();
-        return orderRepository.orderByUser(user);
+        return ResponseEntity.ok(orderRepository.orderByUser(user));
     }
 }
