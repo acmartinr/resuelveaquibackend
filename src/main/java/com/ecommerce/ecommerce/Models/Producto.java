@@ -87,11 +87,11 @@ public class Producto {
         this.name = name;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -161,7 +161,7 @@ public class Producto {
 
     public void setCategory(String category) {this.category = category; }
 
-    public boolean getFeatured() {return featured; }
+    public Boolean getFeatured() {return featured; }
 
     public void setFeatured(boolean featured) {this.featured = featured; }
 
