@@ -113,7 +113,7 @@ public class SalesController {
         return ResponseEntity.ok("Producto agregado al carrito correctamente" );
     }
 
-    @GetMapping(value = "/getShopUser")
+   /* @GetMapping(value = "/getShopUser")
     public List<Sale> getShopUser(@RequestPart Long id) {
         List<Sale> ls=new ArrayList<>();
         //ls=salesRepository.shopUser(id);
@@ -123,6 +123,12 @@ public class SalesController {
                 ls.add(sale);
         }
         return ls;
+    }*/
+
+    @GetMapping(value = "/getShopUser/{id}")
+    public ResponseEntity<List<Sale>> getShopUser(@PathVariable("id") Long id) {
+        User user=userRepository.findById(id).get();
+        return ResponseEntity.ok(salesRepository.saleByUser(user));
     }
 
     @GetMapping(value = "/limpiar")
