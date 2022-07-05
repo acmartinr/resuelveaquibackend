@@ -37,6 +37,8 @@ public class SalesController {
     ShoppingCarRepository shoppingCarRepository;
     @Autowired
     PaymentService service;
+    @Autowired
+    OrderRepository orderRepository;
 
     @GetMapping(value = "/")
     public ResponseEntity<List<Sale>> showSales() {
@@ -44,16 +46,18 @@ public class SalesController {
         return ResponseEntity.ok(sales);
     }
 
-    /*@RequestPart PaymentRequest request*/
+    /*@RequestPart PaymentRequest request @RequestPart ProductSold[] productos,@RequestPart double amount,*/
     @PostMapping(value="/create_sale")
     public ResponseEntity<String> createSale(@RequestPart ProductSold[] productos,@RequestPart double amount,
-                                             @RequestPart Long user_id) throws Exception {
-        Sale s=new Sale();
+                                             @RequestPart Long user_id,@RequestPart Order order,
+                                             @RequestPart PaymentRequest request) throws Exception {
+       Sale s=new Sale();
         Sale sale=new Sale();
+        User user=userRepository.findById(user_id).get();
         Set<ProductSold> products=new HashSet<>(Arrays.asList(productos));
         sale.setAmount(amount);
         //sale.setProductsSolds(products);
-        sale.setUserShopping(userRepository.findById(user_id).get());
+        sale.setUserShopping(user);
         s=salesRepository.save(sale);
         for (ProductSold productSold:productos){
             Producto pr=productoRepository.findById(productSold.getId()).get();
@@ -65,16 +69,20 @@ public class SalesController {
             productSold.setProduct(pr);
             productSoldRepository.save(productSold);
         }
-        //String chargeId= service.charge(request);
-       // if(chargeId!=null){
-         PDFGenerator.generatePDF(s, productos, amount);
-        // return new ResponseEntity<String>(chargeId, HttpStatus.OK);
-        //}
-         //else
-         //return new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);
-       /* return chargeId!=null? new ResponseEntity<String>(chargeId, HttpStatus.OK):
+        String chargeId= service.charge(request);
+        if(chargeId!=null){
+        String pdf= PDFGenerator.generatePDF(s, productos, amount);
+        order.setUserOrder(user);
+        order.setSale(s);
+        order.setBill_payment(pdf);
+        orderRepository.save(order);
+         return new ResponseEntity<String>(chargeId, HttpStatus.OK);
+        }
+         else
+         return new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);
+       /*return chargeId!=null? new ResponseEntity<String>(chargeId, HttpStatus.OK):
                 new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);*/
-        return ResponseEntity.ok("Venta realizada correctamente");
+        //return ResponseEntity.ok("Venta realizada correctamente");
     }
 
     /*@PostMapping(value="/payment")
