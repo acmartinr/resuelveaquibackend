@@ -49,8 +49,8 @@ public class SalesController {
     /*@RequestPart PaymentRequest request @RequestPart ProductSold[] productos,@RequestPart double amount,*/
     @PostMapping(value="/create_sale")
     public ResponseEntity<String> createSale(@RequestPart ProductSold[] productos,@RequestPart double amount,
-                                             @RequestPart Long user_id,@RequestPart Order order,
-                                             @RequestPart PaymentRequest request) throws Exception {
+                                             @RequestPart Long user_id,@RequestPart Order order
+                                             ) throws Exception {
        Sale s=new Sale();
         Sale sale=new Sale();
         User user=userRepository.findById(user_id).get();
@@ -69,17 +69,15 @@ public class SalesController {
             productSold.setProduct(pr);
             productSoldRepository.save(productSold);
         }
-        String chargeId= service.charge(request);
-        if(chargeId!=null){
+
+
         String pdf= PDFGenerator.generatePDF(s, productos, amount);
         order.setUserOrder(user);
         order.setSale(s);
         order.setBill_payment(pdf);
         orderRepository.save(order);
-         return new ResponseEntity<String>(chargeId, HttpStatus.OK);
-        }
-         else
-         return new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<String>("", HttpStatus.OK);
+
        /*return chargeId!=null? new ResponseEntity<String>(chargeId, HttpStatus.OK):
                 new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);*/
         //return ResponseEntity.ok("Venta realizada correctamente");
