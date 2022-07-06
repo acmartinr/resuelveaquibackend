@@ -16,6 +16,7 @@ public class MvcConf implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry){
        WebMvcConfigurer.super.addResourceHandlers(registry);
        exposeDirectory("product-images", registry);
+       exposeDirectory("invoice", registry);
       // registry.addResourceHandler("/imagenEcc/**").addResourceLocations("file:/C:/imagenEcc/");
 
     }
