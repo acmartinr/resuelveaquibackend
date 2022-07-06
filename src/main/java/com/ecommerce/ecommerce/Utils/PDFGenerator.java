@@ -42,6 +42,7 @@ public class PDFGenerator {
             String pdf=java.util.UUID.randomUUID().toString();
 
             document.save("invoice\\"+pdf+".pdf");
+          //  document.save("invoice//"+pdf+".pdf"); //Ubuntu
             return pdf+".pdf";
 
         }
