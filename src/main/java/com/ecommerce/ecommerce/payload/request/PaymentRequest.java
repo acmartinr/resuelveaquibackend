@@ -1,4 +1,6 @@
-package com.ecommerce.ecommerce.Models;
+package com.ecommerce.ecommerce.payload.request;
+
+import com.ecommerce.ecommerce.Models.Token;
 
 public class PaymentRequest {
     public enum Currency{
