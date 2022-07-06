@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import com.ecommerce.ecommerce.Models.PaymentRequest;
+import com.ecommerce.ecommerce.payload.request.PaymentRequest;
 import com.stripe.model.PaymentIntent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
