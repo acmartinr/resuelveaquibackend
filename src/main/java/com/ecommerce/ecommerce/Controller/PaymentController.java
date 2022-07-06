@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.Controller;
 
-import com.ecommerce.ecommerce.Models.PaymentRequest;
+import com.ecommerce.ecommerce.payload.request.PaymentRequest;
 import com.ecommerce.ecommerce.Services.PaymentService;
 import com.stripe.model.PaymentIntent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.stripe.exception.StripeException;
-import com.stripe.model.Charge;
 
 @RestController
 @RequestMapping(path = "/api/payment")
