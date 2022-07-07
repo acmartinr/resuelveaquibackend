@@ -29,7 +29,7 @@ public class PDFGenerator {
                 contentStream.beginText();
                 contentStream.setFont(PDType1Font.TIMES_BOLD, 12);
                 contentStream.newLineAtOffset( 20, page.getMediaBox().getHeight() - (52*i));
-                contentStream.showText("name of the product: "+productSold.getProduct().getName()+" "+"price: "+productSold.getProduct().getPrice());/*+productSold.getProduct().getPrice()*/
+                contentStream.showText("name of the product: /n"+productSold.getProduct().getName()+" "+"price: "+productSold.getProduct().getPrice());/*+productSold.getProduct().getPrice()*/
                 contentStream.showText("quantity of product: "+productSold.getQuantity()+" "+"amount of this product: "+productSold.getQuantity()*productSold.getProduct().getPrice());
                 contentStream.endText();
             i++;

@@ -5,17 +5,13 @@ import com.ecommerce.ecommerce.Repository.*;
 import com.ecommerce.ecommerce.Services.PaymentService;
 import com.ecommerce.ecommerce.Services.ProductoService;
 import com.ecommerce.ecommerce.Utils.PDFGenerator;
-import com.stripe.exception.StripeException;
+import com.ecommerce.ecommerce.payload.request.PaymentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.*;
 
