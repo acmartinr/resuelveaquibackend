@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SalesRepository extends JpaRepository<Sale, Long> {
-    @Query("select s from Sale s join User u on s.shopping=:param")
+    @Query("select distinct s from Sale s join User u on s.shopping=:param")
      List<Sale> saleByUser(@Param("param") User user);
 }
