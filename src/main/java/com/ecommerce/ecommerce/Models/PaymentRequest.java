@@ -1,12 +1,9 @@
 package com.ecommerce.ecommerce.Models;
 
 public class PaymentRequest {
-    public enum Currency{
-        INR,USD;
-    }
     private String description;
     private int amount;
-    private Currency currency;
+    private String currency;
     private String stripeEmail;
     private Token token;
 
@@ -22,10 +19,10 @@ public class PaymentRequest {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-    public Currency getCurrency() {
+    public String getCurrency() {
         return currency;
     }
-    public void setCurrency(Currency currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
     public String getStripeEmail() {
