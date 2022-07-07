@@ -35,6 +35,8 @@ public class UserService {
     public User update(Long id, User user){
         Optional<User> entity=userRepository.findById(id);
         User p=entity.get();
+        String password=p.getPassword();
+        user.setPassword(password);
         p=userRepository.save(user);
         return p;
     }
