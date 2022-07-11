@@ -95,7 +95,7 @@ public class Producto {
         this.price = price;
     }
 
-    public int getStock() {return this.stock; }
+    public Integer getStock() {return this.stock; }
 
     public boolean noExistence() {
         return this.stock <= 0;
