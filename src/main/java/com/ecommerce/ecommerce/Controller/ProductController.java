@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @CrossOrigin
@@ -49,6 +50,7 @@ public class ProductController {
         a=a.substring(0,a.length()-1);
         producto.setImg(a);
         producto.setThumb(a);
+        producto.setDate(LocalDateTime.now());
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.create(producto));
         }
@@ -65,13 +67,13 @@ public class ProductController {
         return ResponseEntity.ok("Hello");
     }*/
 
-    @CrossOrigin
+   /* @CrossOrigin
     @GetMapping("/all")
     public ResponseEntity<List<Producto>> getAllProducts() {
         List<Producto> le = productoService.getAllProducts();
         System.out.println(le.size());
         return ResponseEntity.ok(le);
-    }
+    }*/
 
     @CrossOrigin
     @GetMapping(value = "get/{id}")
@@ -80,11 +82,17 @@ public class ProductController {
     }
 
 
-    @CrossOrigin
-    @GetMapping("/")
-    private ResponseEntity<List<Producto>> list(){
-        return ResponseEntity.ok(productoService.getAllProducts());
-    }
+
+    /*@GetMapping("/all_products")
+    public ResponseEntity<Page<Producto>> list(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "10") int size){
+        String order="id";
+        boolean asc=true;
+        Page<Producto> products = productoService.pagination(PageRequest.of(page, size, Sort.by(order)));
+        if(!asc)
+            products = productoService.pagination(PageRequest.of(page, size, Sort.by(order).descending()));
+        return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
+    }*/
 
     @CrossOrigin
     @PutMapping("/{id}")
@@ -107,13 +115,14 @@ public class ProductController {
         return ResponseEntity.ok(Boolean.TRUE);
     }
 
-    @GetMapping("/productos")
+    @GetMapping("/all_productos")
     public ResponseEntity<Page<Producto>> pagination(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String order,
+            @RequestParam(defaultValue = "date") String order,
             @RequestParam(defaultValue = "true") boolean asc
-    ){
+    )
+    {
         Page<Producto> products = productoService.pagination(PageRequest.of(page, size, Sort.by(order)));
         if(!asc)
             products = productoService.pagination(PageRequest.of(page, size, Sort.by(order).descending()));
