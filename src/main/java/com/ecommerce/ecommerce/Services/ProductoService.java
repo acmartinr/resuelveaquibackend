@@ -3,6 +3,8 @@ package com.ecommerce.ecommerce.Services;
 import com.ecommerce.ecommerce.Models.Producto;
 import com.ecommerce.ecommerce.Repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,5 +39,9 @@ public class ProductoService {
 
     public Optional<Producto> findByID(Long id){
         return productoRepository.findById(id);
+    }
+
+    public Page<Producto> pagination(Pageable pageable){
+        return productoRepository.findAll(pageable);
     }
 }
