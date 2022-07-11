@@ -66,7 +66,7 @@ public class EmailController {
         return new ResponseEntity(new Mensaje("Te hemos enviado un correo"), HttpStatus.OK);
     }
 
-    @PostMapping("/change-password")
+   /* @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO dto, BindingResult bindingResult) {
         if(bindingResult.hasErrors())
             return new ResponseEntity(new Mensaje("Campos mal puestos"), HttpStatus.BAD_REQUEST);
@@ -81,6 +81,6 @@ public class EmailController {
         user.setToken(null);
         userService.save(user);
         return new ResponseEntity(new Mensaje("Contraseña actualizada"), HttpStatus.OK);
-    }
+    }*/
 
 }
