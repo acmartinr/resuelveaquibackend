@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.Models;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table (name="producto")
@@ -15,6 +16,9 @@ public class Producto {
     private Double price;
     @Column(name="stocks")
     private Integer stock;
+
+    @Column(name="dates")
+    private LocalDateTime date;
 
     @Column(name="codes")
     private String code;
@@ -105,6 +109,14 @@ public class Producto {
 
     public void subtracExistence(int stock) {
         this.stock -= stock;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public String getCode() {
