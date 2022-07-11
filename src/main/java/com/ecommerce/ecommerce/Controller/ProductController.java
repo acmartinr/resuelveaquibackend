@@ -6,6 +6,9 @@ import com.ecommerce.ecommerce.Services.ProductoService;
 import com.ecommerce.ecommerce.Utils.FileUploadUtil;
 import com.ecommerce.ecommerce.Utils.ThumbnailCreateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -104,4 +107,18 @@ public class ProductController {
         return ResponseEntity.ok(Boolean.TRUE);
     }
 
+    @GetMapping("/productos")
+    public ResponseEntity<Page<Producto>> pagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String order,
+            @RequestParam(defaultValue = "true") boolean asc
+    ){
+        Page<Producto> products = productoService.pagination(PageRequest.of(page, size, Sort.by(order)));
+        if(!asc)
+            products = productoService.pagination(PageRequest.of(page, size, Sort.by(order).descending()));
+        return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
+    }
 }
+
+
