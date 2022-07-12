@@ -128,6 +128,26 @@ public class ProductController {
             products = productoService.pagination(PageRequest.of(page, size, Sort.by(order).descending()));
         return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Producto>> search(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "date") String order,
+            @RequestParam(defaultValue = "true") boolean asc,
+            @RequestParam(defaultValue = "") String name
+    )
+    {
+        if(!name.isEmpty()){
+        name=name.toUpperCase();
+        Page<Producto> products = productoService.paginationSearch(name,PageRequest.of(page, size, Sort.by(order)));
+        if(!asc)
+            products = productoService.paginationSearch(name, PageRequest.of(page, size, Sort.by(order).descending()));
+        return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
+        }
+            Page<Producto> products = productoService.pagination(PageRequest.of(page, size, Sort.by(order)));
+            return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
+    }
 }
 
 
