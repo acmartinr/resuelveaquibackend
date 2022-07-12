@@ -4,6 +4,7 @@ import com.ecommerce.ecommerce.Models.*;
 import com.ecommerce.ecommerce.Repository.*;
 import com.ecommerce.ecommerce.Services.PaymentService;
 import com.ecommerce.ecommerce.Services.ProductoService;
+import com.ecommerce.ecommerce.Utils.DateTimeUtil;
 import com.ecommerce.ecommerce.Utils.PDFGenerator;
 import com.ecommerce.ecommerce.payload.request.PaymentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,8 @@ public class SalesController {
         sale.setAmount(amount);
         //sale.setProductsSolds(products);
         sale.setUserShopping(user);
+        String time=DateTimeUtil.obtenerFechaYHoraActual();
+        sale.setDateAndTime(time);
         s=salesRepository.save(sale);
         for (ProductSold productSold:productos){
             Producto pr=productoRepository.findById(productSold.getId()).get();
@@ -70,6 +73,7 @@ public class SalesController {
         String pdf= PDFGenerator.generatePDF(s, productos, amount);
         order.setUserOrder(user);
         order.setSale(s);
+        order.setDateAndTime(time);
         order.setBill_payment(pdf);
         orderRepository.save(order);
          return new ResponseEntity<String>(chargeId, HttpStatus.OK);
