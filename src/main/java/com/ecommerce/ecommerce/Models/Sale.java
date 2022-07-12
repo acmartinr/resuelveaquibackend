@@ -22,7 +22,7 @@ public class Sale {
     private User shopping;
 
     public Sale() {
-        this.dateAndTime = DateTimeUtil.obtenerFechaYHoraActual();
+        /*this.dateAndTime = DateTimeUtil.obtenerFechaYHoraActual();*/
     }
 
     public Long getId() {
