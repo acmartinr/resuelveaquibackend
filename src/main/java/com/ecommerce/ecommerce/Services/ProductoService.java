@@ -45,7 +45,7 @@ public class ProductoService {
         return productoRepository.findAll(pageable);
     }
 
-    public Page<Producto> paginationSearch(String name, Pageable pageable){
-        return productoRepository.findByProductName(name, pageable);
+    public Page<Producto> paginationSearch(String name,String type, Pageable pageable){
+        return productoRepository.findByProductName(name,type, pageable);
     }
 }
