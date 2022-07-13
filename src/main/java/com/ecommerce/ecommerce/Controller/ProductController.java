@@ -135,14 +135,16 @@ public class ProductController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "date") String order,
             @RequestParam(defaultValue = "true") boolean asc,
-            @RequestParam(defaultValue = "") String name
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "") String type
     )
     {
-        if(!name.isEmpty()){
+        if(!name.isEmpty()||!type.isEmpty()){
         name=name.toUpperCase();
-        Page<Producto> products = productoService.paginationSearch(name,PageRequest.of(page, size, Sort.by(order)));
+        type=type.toUpperCase();
+        Page<Producto> products = productoService.paginationSearch(name,type,PageRequest.of(page, size, Sort.by(order)));
         if(!asc)
-            products = productoService.paginationSearch(name, PageRequest.of(page, size, Sort.by(order).descending()));
+            products = productoService.paginationSearch(name,type, PageRequest.of(page, size, Sort.by(order).descending()));
         return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
         }
             Page<Producto> products = productoService.pagination(PageRequest.of(page, size, Sort.by(order)));
