@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,10 +87,13 @@ public class UserController {
         Optional<User> usuarioOpt = userService.getByTokenPassword(dto.getTokenPassword());
         if(!usuarioOpt.isPresent())
             return new ResponseEntity(new Mensaje("No existe ningún usuario con esas credenciales"), HttpStatus.NOT_FOUND);
+        if(ChronoUnit.MINUTES.between(usuarioOpt.get().getTimeToken(), LocalDateTime.now())>30)
+            return new ResponseEntity(new Mensaje("Ha superado los 30 minutos dados para el cambio de contraseña"), HttpStatus.BAD_REQUEST);
         User user = usuarioOpt.get();
         String newPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(newPassword);
         user.setToken(null);
+        user.setTimeToken(null);
         userService.save(user);
         return new ResponseEntity(new Mensaje("Contraseña actualizada"), HttpStatus.OK);
     }
