@@ -3,6 +3,7 @@ package com.ecommerce.ecommerce.Models;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 
@@ -33,6 +34,7 @@ public class User {
     @Column(name="rols")
     private String rol;
     private String token;
+    private LocalDateTime timeToken;
 
     @JoinColumn(name = "shopCar_id", unique = true)
     @OneToOne(cascade = CascadeType.ALL)
@@ -124,6 +126,14 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public LocalDateTime getTimeToken() {
+        return timeToken;
+    }
+
+    public void setTimeToken(LocalDateTime timeToken) {
+        this.timeToken = timeToken;
     }
 
     public ShoppingCar getShoppingCar() {
