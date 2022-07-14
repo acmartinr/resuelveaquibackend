@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,7 +43,7 @@ public class EmailController {
     //private String mailFrom;
 
     private static final String subject = "Cambio de Contraseña";
-    private static final String emailMsg = "http://localhost:8080/email-password/change-password";
+    private static final String emailMsg = "http://localhost:8080/api/users/change-password";
 
 
 
@@ -60,6 +61,7 @@ public class EmailController {
         String tokenPassword = uuid.toString();
         dto.setTokenPassword(tokenPassword);
         user.setToken(tokenPassword);
+        user.setTimeToken(LocalDateTime.now());
         userService.save(user);
         emailService.sendEmail(dto.getMailTo(),"Copie el siguiente token: "+tokenPassword+" y peguelo" +
                 " en el siguiente link " +emailMsg,subject);
