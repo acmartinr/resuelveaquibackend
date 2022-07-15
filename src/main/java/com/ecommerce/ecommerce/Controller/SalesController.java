@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -45,6 +48,7 @@ public class SalesController {
 
     /*@RequestPart PaymentRequest request @RequestPart ProductSold[] productos,@RequestPart double amount,*/
     @PostMapping(value="/create_sale")
+    @Transactional(readOnly = false, isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
     public ResponseEntity<String> createSale(@RequestPart ProductSold[] productos,@RequestPart double amount,
                                              @RequestPart Long user_id,@RequestPart Order order,
                                              @RequestPart PaymentRequest request) throws Exception {
