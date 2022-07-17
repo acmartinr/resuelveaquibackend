@@ -53,8 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/category/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/api/users/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/api/products/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/orders/**").permitAll() //permit request withoit login to that url
+                .antMatchers("/api/products/**").permitAll() //permit request withoit login to that url
+                .antMatchers("/api/shoppingCart/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/api/sales/**").permitAll() //permit request withoit login to that url
+                .antMatchers("/api/dashboard/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/invoice/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/product-images/Thumbs/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/product-images/**").permitAll() //permit request withoit login to that url
