@@ -101,21 +101,7 @@ public class SalesController {
         return ResponseEntity.ok(salesRepository.findAll());
     }
 
-    @PostMapping(value = "/addToCar")
-    public ResponseEntity<String> agregarAlCarrito(@RequestPart Producto producto,@RequestPart Long id,
-                                                   @RequestPart int cant) {
-        Set<Producto> prod=new HashSet<>();
-        prod.add(producto);
-        ShoppingCar shoppingCar = new ShoppingCar();
-        Producto productoBuscado = productoRepository.findById(producto.getId()).get();
-        if (productoBuscado==null){
-            return ResponseEntity.ok("El producto no existe");
-        }
-        shoppingCar.setProduct(prod);
-        shoppingCar.setQuantity(cant);
-        shoppingCarRepository.save(shoppingCar);
-        return ResponseEntity.ok("Producto agregado al carrito correctamente" );
-    }
+
 
    /* @GetMapping(value = "/getShopUser")
     public List<Sale> getShopUser(@RequestPart Long id) {

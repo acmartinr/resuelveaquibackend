@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.Models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -9,9 +10,14 @@ public class ShoppingCar {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
+    private String products = "[]";
+    /*
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
-    private Set<Producto> product;
-    private Integer quantity;
+    private Set<ProductSold> product;
+
+     */
+    private Integer quantity = 0;
     public ShoppingCar(){
         super();
     }
@@ -34,15 +40,23 @@ public class ShoppingCar {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+    public String getProducts() {
+        return products;
+    }
 
-
-    public Set<Producto> getProduct() {
+    public void setProducts(String products) {
+        this.products = products;
+    }
+/*
+    public Set<ProductSold> getProduct() {
         return product;
     }
 
-    public void setProduct(Set<Producto> product) {
+    public void setProduct(Set<ProductSold> product) {
         this.product = product;
     }
 
+
+ */
 
 }

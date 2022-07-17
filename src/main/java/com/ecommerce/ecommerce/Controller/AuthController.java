@@ -7,11 +7,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 
+import com.ecommerce.ecommerce.Models.ShoppingCar;
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 import com.ecommerce.ecommerce.Security.services.UserDetailsImpl;
 import com.ecommerce.ecommerce.Services.EmailService;
+import com.ecommerce.ecommerce.Services.ShoppingCarService;
 import com.ecommerce.ecommerce.Services.UserService;
 import com.ecommerce.ecommerce.payload.request.LoginRequest;
 import com.ecommerce.ecommerce.payload.request.SignupRequest;
@@ -46,6 +48,8 @@ public class AuthController {
     UserService userService;
     @Autowired
     JwtUtils jwtUtils;
+    @Autowired
+    ShoppingCarService shoppingCarService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -78,6 +82,9 @@ public class AuthController {
 
 
         User userCreated = userService.signUp(signUpRequest);
+        ShoppingCar sp = new ShoppingCar();
+        shoppingCarService.create(sp);
+        userCreated.setShoppingCar(sp);
         userService.create(userCreated);
 
         // Create new user's account
