@@ -15,6 +15,10 @@ public class ProductSold {
     @JoinColumn(name = "cod_id")
     private Sale sale;
 
+    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinColumn(name = "shopp_id")
+    private ShoppingCar shoppingCar;
+
     public ProductSold() {
         super();
     }
@@ -61,5 +65,13 @@ public class ProductSold {
 
     public void setSale(Sale sale) {
         this.sale = sale;
+    }
+
+    public ShoppingCar getShoppingCar() {
+        return shoppingCar;
+    }
+
+    public void setShoppingCar(ShoppingCar shoppingCar) {
+        this.shoppingCar = shoppingCar;
     }
 }
