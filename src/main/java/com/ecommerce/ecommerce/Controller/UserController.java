@@ -9,6 +9,9 @@ import com.ecommerce.ecommerce.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -22,6 +25,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 @CrossOrigin
 @RestController
@@ -36,12 +40,9 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    EmailServiceImpl emailService = new EmailServiceImpl();
-
     @CrossOrigin
     @GetMapping("/all")
     private ResponseEntity<List<User>> list(){
-        emailService.sendSimpleMessage("albertocarlosmartin@gmail.com","Hello Martin","Hello whats up");
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
