@@ -13,6 +13,7 @@ import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 import com.ecommerce.ecommerce.Security.services.UserDetailsImpl;
 import com.ecommerce.ecommerce.Services.EmailService;
+import com.ecommerce.ecommerce.Services.EmailServiceImpl;
 import com.ecommerce.ecommerce.Services.ShoppingCarService;
 import com.ecommerce.ecommerce.Services.UserService;
 import com.ecommerce.ecommerce.payload.request.LoginRequest;
@@ -50,6 +51,8 @@ public class AuthController {
     JwtUtils jwtUtils;
     @Autowired
     ShoppingCarService shoppingCarService;
+    @Autowired
+    private EmailServiceImpl emailService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -94,17 +97,17 @@ public class AuthController {
                 encoder.encode(signUpRequest.getPassword()));
         userRepository.save(user);
 
-         */
-
         EmailService emailService  = new EmailService();
         try{
             emailService.sendEmail(signUpRequest.getEmail(),"Hola bienvenido a resuelveAqui","Querido usuario");
+
         }catch (IOException e){
             e.printStackTrace();
         } catch (RequestFailedException e) {
             e.printStackTrace();
-        }
-
+        }   */
+        //Send welcome email
+        emailService.sendSimpleMessage(signUpRequest.getEmail(),"Hola bienvenido a resuelveAqui","Bienvenido a ResuelveAqui");
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }
