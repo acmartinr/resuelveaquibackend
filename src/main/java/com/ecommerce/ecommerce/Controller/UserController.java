@@ -3,13 +3,16 @@ package com.ecommerce.ecommerce.Controller;
 import com.ecommerce.ecommerce.Models.ChangePasswordDTO;
 import com.ecommerce.ecommerce.Models.Mensaje;
 import com.ecommerce.ecommerce.Models.User;
+import com.ecommerce.ecommerce.Services.EmailServiceImpl;
 import com.ecommerce.ecommerce.Services.ShoppingCarService;
 import com.ecommerce.ecommerce.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +36,12 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    EmailServiceImpl emailService = new EmailServiceImpl();
+
     @CrossOrigin
     @GetMapping("/all")
     private ResponseEntity<List<User>> list(){
+        emailService.sendSimpleMessage("albertocarlosmartin@gmail.com","Hello Martin","Hello whats up");
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
