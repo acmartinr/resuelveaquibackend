@@ -67,13 +67,13 @@ public class ProductController {
         return ResponseEntity.ok("Hello");
     }*/
 
-   /* @CrossOrigin
+    @CrossOrigin
     @GetMapping("/all")
     public ResponseEntity<List<Producto>> getAllProducts() {
         List<Producto> le = productoService.getAllProducts();
         System.out.println(le.size());
         return ResponseEntity.ok(le);
-    }*/
+    }
 
     @CrossOrigin
     @GetMapping(value = "get/{id}")
