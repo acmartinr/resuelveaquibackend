@@ -4,6 +4,7 @@ import com.ecommerce.ecommerce.Models.ProductSold;
 import com.ecommerce.ecommerce.Models.Producto;
 import com.ecommerce.ecommerce.Models.ShoppingCar;
 import com.ecommerce.ecommerce.Models.User;
+import com.ecommerce.ecommerce.Services.ProductSoldService;
 import com.ecommerce.ecommerce.Services.ProductoService;
 import com.ecommerce.ecommerce.Services.ShoppingCarService;
 import com.ecommerce.ecommerce.Services.UserService;
@@ -25,6 +26,8 @@ import java.util.*;
 public class ShoppingCarController {
     @Autowired
     private ProductoService productoService;
+    @Autowired
+    ProductSoldService productSoldService;
     @Autowired
     ShoppingCarService shoppingCarService;
     @Autowired
@@ -48,7 +51,7 @@ public class ShoppingCarController {
     }
 
     @DeleteMapping(value = "/removeFromCart/{userid}/{id}")
-    public ResponseEntity<String> agregarAlCarrito(@PathVariable("id") Long id, @PathVariable("userid") Long userid) {
+    public ResponseEntity<String> removeAlCarrito(@PathVariable("id") Long id, @PathVariable("userid") Long userid) {
         Gson gson = new Gson();
         long cartId = userService.findByID(userid).get().getShoppingCar().getId();
         ShoppingCar sc = shoppingCarService.findByID(cartId).get();
@@ -92,6 +95,8 @@ public class ShoppingCarController {
             return (ResponseEntity<String>) ResponseEntity.badRequest();
         }
 
+
+
         /*
         Set<Producto> prod=new HashSet<>();
         prod.add(producto);
@@ -107,6 +112,8 @@ public class ShoppingCarController {
          */
 
     }
+
+
 
     @GetMapping("/add")
     public ResponseEntity<String> addToCart(@RequestBody Producto product) {
@@ -141,6 +148,32 @@ public class ShoppingCarController {
         else
             shoppingCarService.delete(id);
         return ResponseEntity.ok(Boolean.TRUE);
+    }
+
+    @PostMapping("/quantity/{userid}/{id}")
+    public ResponseEntity<String> setQuantityProduct(@PathVariable("userid") Long userid,@PathVariable("id") Long id,
+                                                       @RequestBody Integer cant){
+        Gson gson = new Gson();
+        long cartId = userService.findByID(userid).get().getShoppingCar().getId();
+        ShoppingCar sc = shoppingCarService.findByID(cartId).get();
+        List<Cart> products = gson.fromJson(sc.getProducts(), List.class);
+
+
+        ArrayList<Cart> al = new ArrayList<>();
+        for (int i = 0;i< products.size(); i++) {
+            Map<String, Any> obj = new HashMap<String,Any>((Map<? extends String, ? extends Any>) products.get(i));
+            String productId = String.valueOf(obj.get("id"));
+            if(Float.parseFloat(productId) != Float.parseFloat(String.valueOf(id)))
+                al.add(products.get(i));
+            else {
+                String.valueOf(obj.get("max")).replace(String.valueOf(obj.get("max")),cant.toString());
+                al.add(products.get(i));
+            }
+        }
+        String newProducts = gson.toJson(al);
+        sc.setProducts(newProducts);
+        shoppingCarService.update(sc.getId(), sc);
+        return ResponseEntity.ok("La cantidad del producto fue actualizada");
     }
 
 }
