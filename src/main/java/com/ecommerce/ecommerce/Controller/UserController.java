@@ -1,11 +1,14 @@
 package com.ecommerce.ecommerce.Controller;
 
 import com.ecommerce.ecommerce.Models.ChangePasswordDTO;
+import com.ecommerce.ecommerce.Models.EmailValuesDTO;
 import com.ecommerce.ecommerce.Models.Mensaje;
 import com.ecommerce.ecommerce.Models.User;
+import com.ecommerce.ecommerce.Services.EmailService;
 import com.ecommerce.ecommerce.Services.EmailServiceImpl;
 import com.ecommerce.ecommerce.Services.ShoppingCarService;
 import com.ecommerce.ecommerce.Services.UserService;
+import com.nylas.RequestFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.UUID;
 
 @CrossOrigin
 @RestController
@@ -39,6 +43,10 @@ public class UserController {
     UserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    EmailService emailService;
+
+    private static final String subject = "Contraseña reseteada";
 
     @CrossOrigin
     @GetMapping("/all")
@@ -95,7 +103,7 @@ public class UserController {
             return new ResponseEntity(new Mensaje("Las contraseñas no coinciden"), HttpStatus.BAD_REQUEST);
         Optional<User> usuarioOpt = userService.getByTokenPassword(dto.getTokenPassword());
         if(!usuarioOpt.isPresent())
-            return new ResponseEntity(new Mensaje("No existe ningún usuario con esas credenciales"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(new Mensaje("Es posible que hayas escrito mal tu token"), HttpStatus.NOT_FOUND);
         if(ChronoUnit.MINUTES.between(usuarioOpt.get().getTimeToken(), LocalDateTime.now())>30) {
             usuarioOpt.get().setToken(null);
             usuarioOpt.get().setTimeToken(null);
@@ -106,7 +114,23 @@ public class UserController {
         user.setPassword(newPassword);
         user.setToken(null);
         user.setTimeToken(null);
-        userService.save(user);
+        userService.update(user.getId(),user);
         return new ResponseEntity(new Mensaje("Contraseña actualizada"), HttpStatus.OK);
     }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody EmailValuesDTO dto) throws RequestFailedException, IOException {
+        Optional<User> userOpt = userService.getByEmail(dto.getMailTo());
+        if(!userOpt.isPresent())
+            return new ResponseEntity(new Mensaje("No existe ningún usuario con esas credenciales"), HttpStatus.NOT_FOUND);
+        UUID uuid = UUID.randomUUID();
+        String resetPassword = uuid.toString();
+        User user = userOpt.get();
+        String newPassword = passwordEncoder.encode(resetPassword);
+        user.setPassword(newPassword);
+        userService.update(user.getId(),user);
+        emailService.sendEmail(dto.getMailTo(),"Esta es su nueva contraseña: "+resetPassword,subject);
+        return new ResponseEntity(new Mensaje("Contraseña actualizada"), HttpStatus.OK);
+    }
+
 }
