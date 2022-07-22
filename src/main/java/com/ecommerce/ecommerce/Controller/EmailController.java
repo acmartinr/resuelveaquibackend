@@ -62,7 +62,7 @@ public class EmailController {
         dto.setTokenPassword(tokenPassword);
         user.setToken(tokenPassword);
         user.setTimeToken(LocalDateTime.now());
-        userService.save(user);
+        userService.update(user.getId(),user);
         emailService.sendEmail(dto.getMailTo(),"Copie el siguiente token: "+tokenPassword+" y peguelo" +
                 " en el siguiente link " +emailMsg,subject);
         return new ResponseEntity(new Mensaje("Te hemos enviado un correo"), HttpStatus.OK);
