@@ -44,7 +44,7 @@ public class UserController {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    EmailService emailService;
+    private EmailServiceImpl emailService;
 
     private static final String subject = "Contraseña reseteada";
 
@@ -95,6 +95,12 @@ public class UserController {
         return ResponseEntity.ok(Boolean.TRUE);
     }
 
+    @GetMapping("/confirmpasswod/{uuid}")
+    public ResponseEntity<?> confirmResetPassword(@PathVariable ("uuid") Long uuid){
+        //Enviar nuevo usuario y contrasenna desde el frontend con el token seteado al enviar el email
+        System.out.println(uuid);
+        return new ResponseEntity(new Mensaje("Contraseña confirmada"), HttpStatus.OK);
+    }
     @PostMapping("/change-password")
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO dto, BindingResult bindingResult) {
         if(bindingResult.hasErrors())
@@ -129,7 +135,7 @@ public class UserController {
         String newPassword = passwordEncoder.encode(resetPassword);
         user.setPassword(newPassword);
         userService.update(user.getId(),user);
-        emailService.sendEmail(dto.getMailTo(),"Esta es su nueva contraseña: "+resetPassword,subject);
+        emailService.sendSimpleMessage(dto.getMailTo(),subject,"Esta es su nueva contraseña: "+resetPassword);
         return new ResponseEntity(new Mensaje("Contraseña actualizada"), HttpStatus.OK);
     }
 
