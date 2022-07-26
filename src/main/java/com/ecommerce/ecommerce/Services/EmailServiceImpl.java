@@ -1,7 +1,10 @@
 package com.ecommerce.ecommerce.Services;
 
+import com.ecommerce.ecommerce.Models.Mensaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -27,7 +30,7 @@ public class EmailServiceImpl {
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
+        //props.put("mail.debug", "true");
 
         return mailSender;
     }
@@ -35,7 +38,7 @@ public class EmailServiceImpl {
     @Autowired
     private JavaMailSender emailSender;
 
-    public void sendSimpleMessage(String to, String subject, String text) {
+    public void sendSimpleMessage(String to, String subject, String text){
         emailSender = getJavaMailSender();
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("support@resuelveaqui.com");
@@ -43,5 +46,6 @@ public class EmailServiceImpl {
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
+
     }
 }
