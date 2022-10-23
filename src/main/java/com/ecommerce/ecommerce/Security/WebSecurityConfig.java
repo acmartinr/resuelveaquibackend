@@ -60,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/invoice/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/product-images/Thumbs/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/product-images/**").permitAll() //permit request withoit login to that url
+                .antMatchers("/api/orders/**").permitAll() //permit request withoit login to that url
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
