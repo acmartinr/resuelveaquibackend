@@ -170,10 +170,23 @@ public class ShoppingCarController {
                 al.add(products.get(i));
             }
         }
-        String newProducts = gson.toJson(al);
+        String newProducts = gson.toJson(al).toString();
         sc.setProducts(newProducts);
         shoppingCarService.update(sc.getId(), sc);
         return ResponseEntity.ok("La cantidad del producto fue actualizada");
+    }
+
+    @PostMapping(value = "/cleanKart/{userid}")
+    public ResponseEntity<ShoppingCar> cleanKart(@PathVariable("userid") Long id){
+        Gson gson = new Gson();
+        long cartId = userService.findByID(id).get().getShoppingCar().getId();
+        ShoppingCar sc = shoppingCarService.findByID(cartId).get();
+        ArrayList<Cart> empty = new ArrayList<>();
+        String emptyProducts = gson.toJson(empty).toString();
+        sc.setProducts(emptyProducts);
+        shoppingCarService.update(sc.getId(), sc);
+        return ResponseEntity.status(HttpStatus.OK).body(sc);
+
     }
 
 }
