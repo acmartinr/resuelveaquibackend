@@ -61,18 +61,6 @@ public class Producto {
         this.shipping=shipping;
     }
 
-    /*public Producto(String name,Double price,String code,String category, boolean shipping) {
-        this.name=name;
-        this.price=price;
-        this.code=code;
-        this.category=category;
-        this.shipping=shipping;
-    }
-
-    public Producto(String name, Double price,String code, String category, boolean shipping, Integer quantity) {
-        this.quantity = quantity;
-    }*/
-
     public Long getId() {
         return id;
     }
@@ -183,23 +171,4 @@ public class Producto {
         this.shipping = shipping;
     }
 
-   /* public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Double getTotal() {
-        return this.quantity * this.price;
-    }
-
-    public void increaseQuantity() {
-        this.quantity++;
-    }
-
-    public Integer getCantidad() {
-        return quantity;
-    }*/
 }
