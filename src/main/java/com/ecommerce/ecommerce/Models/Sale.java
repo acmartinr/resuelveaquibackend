@@ -14,7 +14,7 @@ public class Sale {
 
     private Double amount;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sale")
     private Set<ProductSold> products;
 
     @ManyToOne
