@@ -48,7 +48,7 @@ public class Order {
         this.telef = telef;
     }*/
 
-    public Order(String dateAndTime, Integer status, String address, String name, String telef,
+   /* public Order(String dateAndTime, Integer status, String address, String name, String telef,
                  String city, String province, String zipcode) {
         this.dateAndTime = dateAndTime;
         this.status = status;
@@ -58,7 +58,16 @@ public class Order {
         this.city = city;
         this.province = province;
         this.zipcode = zipcode;
-    }
+    }*/
+  /*  public Order( String address, String name, String telef,
+                 String city, String province) {
+
+        this.address = address;
+        this.name = name;
+        this.telef = telef;
+        this.city = city;
+        this.province = province;
+    }*/
 
     public Long getId() {
         return id;
