@@ -41,8 +41,13 @@ public class PDFGenerator {
             contentStream.close();
             String pdf=java.util.UUID.randomUUID().toString();
 
-           // document.save("invoice\\"+pdf+".pdf");
-            document.save("invoice//"+pdf+".pdf"); //Ubuntu
+            //Check if run system is windows or not for set path
+            String systemName = System.getProperties().get("os.name").toString();
+            if(systemName.contains("Windows")){
+                document.save("invoice\\"+pdf+".pdf");
+            }else{
+                document.save("invoice//"+pdf+".pdf"); //Ubuntu
+            }
             return pdf+".pdf";
 
         }

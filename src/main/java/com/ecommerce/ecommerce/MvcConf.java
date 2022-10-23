@@ -18,17 +18,20 @@ public class MvcConf implements WebMvcConfigurer {
        exposeDirectory("product-images", registry);
        exposeDirectory("invoice", registry);
       // registry.addResourceHandler("/imagenEcc/**").addResourceLocations("file:/C:/imagenEcc/");
-
     }
 
     private void exposeDirectory(String dirName, ResourceHandlerRegistry registry) {
         Path uploadDir = Paths.get(dirName);
         String uploadPath = uploadDir.toFile().getAbsolutePath();
-
         if (dirName.startsWith("../")) dirName = dirName.replace("../", "");
-        //=> for linux
+
+        String systemName = System.getProperties().get("os.name").toString();
+        //Check if run system is windows or not for set path
+        if(systemName.contains("Windows")){
+            registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
+        }else{
             registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:///"+ uploadPath + "/");
-        //registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
+        }
     }
 
     @Bean
