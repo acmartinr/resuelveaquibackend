@@ -24,9 +24,10 @@ public class ShoppingCarService {
 
     public ShoppingCar update(Long id, ShoppingCar shoppingCar){
         Optional<ShoppingCar> entity=shoppingCarRepository.findById(id);
-        ShoppingCar p=entity.get();
-        p=shoppingCarRepository.save(shoppingCar);
-        return p;
+        ShoppingCar sc=entity.get();
+        shoppingCar.setId(id);
+        shoppingCarRepository.save(shoppingCar);
+        return sc;
     }
 
     public void delete(Long id){
