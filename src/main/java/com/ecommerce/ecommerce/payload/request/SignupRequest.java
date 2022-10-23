@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.validation.constraints.*;
 
-public class SignupRequest {
+public class  SignupRequest {
 
     @Size(max = 50)
     private String firstname;

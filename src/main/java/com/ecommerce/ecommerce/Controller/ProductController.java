@@ -95,8 +95,8 @@ public class ProductController {
     }*/
 
     @CrossOrigin
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Producto producto){
+    @PutMapping("update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Producto producto){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.update(id,producto));
         }
