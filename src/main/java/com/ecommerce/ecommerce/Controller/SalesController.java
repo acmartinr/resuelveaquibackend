@@ -71,7 +71,7 @@ public class SalesController {
                 return ResponseEntity.ok("Solo hay una disponibilidad total de " + pr.getStock() + " para " + pr.getName());
             pr.subtracExistence(productSold.getQuantity());
             productoService.update(pr.getId(), pr);
-           // productSold.setSale(s);
+            // productSold.setSale(s);
             //productSold.setProduct(pr);
             ProductSold ps = new ProductSold();
             ps.setShoppingCar(user.getShoppingCar());
@@ -84,12 +84,17 @@ public class SalesController {
 
         String chargeId = service.charge(request);
         if (chargeId != null) {
-            String pdf = PDFGenerator.generatePDF(s, productsAfterSold, amount);
-            order.setUserOrder(user);
-            order.setSale(s);
-            order.setDateAndTime(time);
-            order.setBill_payment(pdf);
-            orderRepository.save(order);
+            try {
+                String pdf = PDFGenerator.generatePDF(s, productsAfterSold, amount);
+                order.setUserOrder(user);
+                order.setSale(s);
+                order.setDateAndTime(time);
+                order.setBill_payment(pdf);
+                orderRepository.save(order);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             return new ResponseEntity<String>(chargeId, HttpStatus.OK);
         } else
             return new ResponseEntity<String>("Please check the credit card details entered", HttpStatus.BAD_REQUEST);
