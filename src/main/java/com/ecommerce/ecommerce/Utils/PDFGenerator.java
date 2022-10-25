@@ -8,10 +8,12 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
+import java.util.Set;
+
 public class PDFGenerator {
 
 
-    public static String generatePDF(Sale sale, ProductSold[] productos, double amount)throws Exception {
+    public static String generatePDF(Sale sale, Set<ProductSold> productos, double amount)throws Exception {
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage(PDRectangle.A6);
             document.addPage(page);
