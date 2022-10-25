@@ -47,47 +47,55 @@ public class SalesController {
     }
 
     /*@RequestPart PaymentRequest request @RequestPart ProductSold[] productos,@RequestPart double amount,*/
-    @PostMapping(value="/create_sale")/*,@RequestPart Order order,
+    @PostMapping(value = "/create_sale")/*,@RequestPart Order order,
     @RequestPart PaymentRequest request*/
     @Transactional(readOnly = false, isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
-    public ResponseEntity<String> createSale(@RequestPart ProductSold[] productos,@RequestPart double amount,
-                                             @RequestPart Long user_id,@RequestPart Order order,
+    public ResponseEntity<String> createSale(@RequestPart ProductSold[] productos, @RequestPart double amount,
+                                             @RequestPart Long user_id, @RequestPart Order order,
                                              @RequestPart PaymentRequest request) throws Exception {
-       Sale s=new Sale();
-        Sale sale=new Sale();
-        User user=userRepository.findById(user_id).get();
-        Set<ProductSold> products=new HashSet<>(Arrays.asList(productos));
+        Sale s = new Sale();
+        Sale sale = new Sale();
+        User user = userRepository.findById(user_id).get();
+        Set<ProductSold> products = new HashSet<>(Arrays.asList(productos));
+        Set<ProductSold> productsAfterSold = new HashSet<>();
         sale.setAmount(amount);
         sale.setProductsSolds(products);
         sale.setUserShopping(user);
-        String time=DateTimeUtil.obtenerFechaYHoraActual();
+        String time = DateTimeUtil.obtenerFechaYHoraActual();
         sale.setDateAndTime(time);
-        s=salesRepository.save(sale);
-        for (ProductSold productSold:productos){
-            Producto pr=productoRepository.findById(productSold.getId()).get();
-            if(pr.getStock()< productSold.getQuantity())
-                return ResponseEntity.ok("Solo hay una disponibilidad total de "+pr.getStock()+" para "+pr.getName());
+
+        s = salesRepository.save(sale);
+        for (ProductSold productSold : productos) {
+            Producto pr = productoRepository.findById(productSold.getId()).get();
+            if (pr.getStock() < productSold.getQuantity())
+                return ResponseEntity.ok("Solo hay una disponibilidad total de " + pr.getStock() + " para " + pr.getName());
             pr.subtracExistence(productSold.getQuantity());
-            productoService.update(pr.getId(),pr);
-            productSold.setSale(s);
-            productSold.setProduct(pr);
-            productSoldRepository.save(productSold);
+            productoService.update(pr.getId(), pr);
+           // productSold.setSale(s);
+            //productSold.setProduct(pr);
+            ProductSold ps = new ProductSold();
+            ps.setShoppingCar(user.getShoppingCar());
+            ps.setSale(s);
+            ps.setQuantity(productSold.getQuantity());
+            ps.setProduct(pr);
+            productsAfterSold.add(ps);
+            productSoldRepository.save(ps);
         }
-        String chargeId= service.charge(request);
-        if(chargeId!=null){
-        String pdf= PDFGenerator.generatePDF(s, productos, amount);
-        order.setUserOrder(user);
-        order.setSale(s);
-        order.setDateAndTime(time);
-        order.setBill_payment(pdf);
-        orderRepository.save(order);
-         return new ResponseEntity<String>(chargeId, HttpStatus.OK);
-        }
-        else
-        return new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);
+
+        String chargeId = service.charge(request);
+        if (chargeId != null) {
+            String pdf = PDFGenerator.generatePDF(s, productsAfterSold, amount);
+            order.setUserOrder(user);
+            order.setSale(s);
+            order.setDateAndTime(time);
+            order.setBill_payment(pdf);
+            orderRepository.save(order);
+            return new ResponseEntity<String>(chargeId, HttpStatus.OK);
+        } else
+            return new ResponseEntity<String>("Please check the credit card details entered", HttpStatus.BAD_REQUEST);
        /*return chargeId!=null? new ResponseEntity<String>(chargeId, HttpStatus.OK):
                 new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);*/
-       // return ResponseEntity.ok("Venta realizada correctamente");
+        // return ResponseEntity.ok("Venta realizada correctamente");
     }
 
     /*@PostMapping(value="/payment")
@@ -97,7 +105,7 @@ public class SalesController {
                 new ResponseEntity<String>("Please check the credit card details entered",HttpStatus.BAD_REQUEST);
     }*/
 
-    @GetMapping(value="/getAll_sale")
+    @GetMapping(value = "/getAll_sale")
     public ResponseEntity<List<Sale>> getAllSale() throws IOException {
         return ResponseEntity.ok(salesRepository.findAll());
     }
@@ -118,7 +126,7 @@ public class SalesController {
 
     @GetMapping(value = "/getShopUser/{id}")
     public ResponseEntity<List<Sale>> getShopUser(@PathVariable("id") Long id) {
-        User user=userRepository.findById(id).get();
+        User user = userRepository.findById(id).get();
         return ResponseEntity.ok(salesRepository.saleByUser(user));
     }
 
