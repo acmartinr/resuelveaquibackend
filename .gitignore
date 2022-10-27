@@ -35,3 +35,4 @@ build/
 
 product-images
 invoice
+src/main/resources/application.properties
