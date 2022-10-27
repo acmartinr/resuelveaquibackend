@@ -45,16 +45,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    @Override
+    @Override//csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
+        http.csrf().disable()//csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                //.and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/email-password/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/api/products/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/csrf/**").permitAll() //permit request withoit login to that url
+                .antMatchers("/api/category/**").permitAll() //permit request withoit login to that url
+                //.antMatchers("/api/csrf/**").permitAll() //permit request withoit login to that url
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
