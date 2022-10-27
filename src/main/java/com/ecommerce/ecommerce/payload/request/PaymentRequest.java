@@ -2,6 +2,8 @@ package com.ecommerce.ecommerce.payload.request;
 
 import com.ecommerce.ecommerce.Models.Token;
 
+import java.util.Objects;
+
 public class PaymentRequest {
     private String description;
     private int amount;
@@ -38,5 +40,18 @@ public class PaymentRequest {
     }
     public void setToken(Token stripeToken) {
         this.token = stripeToken;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PaymentRequest paymentRequest = (PaymentRequest) o;
+        return description == paymentRequest.description && amount == paymentRequest.amount && Objects.equals(currency, paymentRequest.currency) && Objects.equals(stripeEmail, paymentRequest.stripeEmail) && Objects.equals(token, paymentRequest.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(description, amount, currency, stripeEmail, token);
     }
 }
