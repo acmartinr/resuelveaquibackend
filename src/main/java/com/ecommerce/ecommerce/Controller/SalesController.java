@@ -58,10 +58,6 @@ public class SalesController {
         User user = userService.findByID(user_id).get();
         Sale saleObject = saleService.createSale(productos, amount, user_id);
         List<ProductSold> productsAfterSold = productSoldService.addAllProductSold(productos, user, saleObject);
-        System.out.println("------------------------------");
-        System.out.println(productsAfterSold);
-        System.out.println(user.getId());
-        System.out.println(saleObject);
         if (productsAfterSold.isEmpty()) {
             return new ResponseEntity<>(new ErrorResponse(Constants.INSUFFICIENT_PRODUCT_STOCK), HttpStatus.BAD_REQUEST);
         } else {
