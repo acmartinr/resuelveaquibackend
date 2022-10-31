@@ -28,13 +28,15 @@ public class PaymentService {
     public void init() {
         Stripe.apiKey = secretKey;
     }
-    public String charge(double amount,String currency,String tokenId) throws StripeException {
+    public String charge(int amount,String currency,String tokenId) throws StripeException {
         Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("amount", amount);
         chargeParams.put("currency", currency);
         Token token = new Token();
         token.setId(tokenId);
         chargeParams.put("source", token.getId());
+        System.out.println("DDDDDDDDDDDDDDDDD");
+        System.out.println(amount);
         Charge charge = Charge.create(chargeParams);
         return charge.getId();
     }
@@ -67,7 +69,7 @@ public class PaymentService {
     }
 
 
-    public String processPayment(double amount,String currency,String tokenId) throws StripeException {
+    public String processPayment(int amount,String currency,String tokenId) throws StripeException {
         String chargeId = charge(amount,currency,tokenId);
         return chargeId;
     }
