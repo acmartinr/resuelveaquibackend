@@ -3,7 +3,9 @@ package com.ecommerce.ecommerce.Models;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 
 
@@ -36,12 +38,18 @@ public class User {
     private String token;
     private LocalDateTime timeToken;
 
+    //private boolean enabled;
+
     @JoinColumn(name = "shopCar_id", unique = true)
     @OneToOne(cascade = CascadeType.ALL)
     private ShoppingCar shoppingCar;
 
     @OneToMany(mappedBy = "userOrder", cascade = CascadeType.ALL)
     private Set<Order> orders;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
     public User(){
         super();
@@ -136,12 +144,27 @@ public class User {
         this.timeToken = timeToken;
     }
 
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /*public void setEnabled(final boolean enabled) {
+        this.enabled = enabled;
+    }*/
+
     public ShoppingCar getShoppingCar() {
         return shoppingCar;
     }
 
     public void setShoppingCar(ShoppingCar shoppingCar) {
         this.shoppingCar = shoppingCar;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+    public void setRoles(final Collection<Role> roles) {
+        this.roles = roles;
     }
 
     /* public Set<Sale> getSale() {
