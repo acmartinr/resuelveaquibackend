@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.Controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +10,7 @@ import javax.validation.Valid;
 
 import com.ecommerce.ecommerce.Models.ShoppingCar;
 import com.ecommerce.ecommerce.Models.User;
+import com.ecommerce.ecommerce.Repository.RoleRepository;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 import com.ecommerce.ecommerce.Security.services.UserDetailsImpl;
@@ -52,6 +54,8 @@ public class AuthController {
     @Autowired
     ShoppingCarService shoppingCarService;
     @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
     private EmailServiceImpl emailService;
 
     @PostMapping("/signin")
@@ -88,6 +92,7 @@ public class AuthController {
         ShoppingCar sp = new ShoppingCar();
         shoppingCarService.create(sp);
         userCreated.setShoppingCar(sp);
+        userCreated.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
         userService.create(userCreated);
 
         // Create new user's account
