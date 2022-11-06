@@ -37,7 +37,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private PasswordEncoder passwordEncoder;
 
     // API
-
     @Override
     @Transactional
     public void onApplicationEvent(final ContextRefreshedEvent event) {

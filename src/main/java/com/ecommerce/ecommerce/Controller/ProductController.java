@@ -28,10 +28,9 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private static final String  devUrl = "http://localhost:3000";
 
     @Autowired
-    private ProductoService productoService;
+    ProductoService productoService;
 
     @CrossOrigin
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -53,10 +52,13 @@ public class ProductController {
         producto.setImg(a);
         producto.setThumb(a);
         producto.setDate(LocalDateTime.now());
+        System.out.println("ddddddddddd");
+        System.out.println(productoService);
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.create(producto));
         }
         catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
@@ -101,9 +103,11 @@ public class ProductController {
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Producto producto){
         try {
+            System.out.println(productoService);
             return ResponseEntity.status(HttpStatus.OK).body(productoService.update(id,producto));
         }
         catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
