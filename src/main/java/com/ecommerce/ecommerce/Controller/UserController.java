@@ -36,8 +36,6 @@ import java.util.UUID;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private static final String  devUrl = "http://localhost:3000";
-
 
     @Autowired
     UserService userService;

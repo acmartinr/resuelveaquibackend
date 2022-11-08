@@ -1,0 +1,48 @@
+#see for java tunning https://docs.oracle.com/cd/E15523_01/web.1111/e13814/jvm_tuning.htm#PERFM161
+version: '3.8'
+services:
+  #Docker Compose creates a virtual network between the services and the DNS name
+  #used for each service is its name: that’s why it’s possible to use eureka-discovery as the hostname.
+  registry-discovery:
+    container_name: resuelveaqui-ecomerce
+    image: microvelox/resuelveaqui-docker
+    ports:
+      - 8080:8080
+    environment:
+      - JAVA_OPTS=
+        -Xms256M
+        -Xmx256M
+
+  ##########################################################################
+  #database service
+  ##########################################################################
+  postgres_db:
+    container_name: postgres
+    image: postgres:latest
+    ports:
+      - 3432:5432
+    volumes:
+      #allow *.sql, *.sql.gz, or *.sh and is execute only if data directory is empty
+      - ./dbfiles:/docker-entrypoint-initdb.d
+      - /var/lib/postgres_data:/var/lib/postgresql/data
+    environment:
+      #default postgres super user
+      POSTGRES_USER: postgres
+      #default passwor for postgres super user, it is only the required envvar for postgres image
+      POSTGRES_PASSWORD: qwerty
+      #main database if name is not specific thname of super user is use
+      POSTGRES_DB: postgres
+
+  ##########################################################################
+  #pgadmin service
+  ##########################################################################
+  pgadmin4:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "qwerty"
+    ports:
+      - 80:80
+    depends_on:
+      - postgres_db
