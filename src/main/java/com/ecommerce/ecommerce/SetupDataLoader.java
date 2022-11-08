@@ -39,7 +39,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     // API
 
     @Override
-    @Transactional
+    //@Transactional
     public void onApplicationEvent(final ContextRefreshedEvent event) {
         if (alreadySetup) {
             return;
@@ -57,7 +57,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         createRoleIfNotFound("ROLE_USER", userPrivileges);
 
         // == create initial user
-        createUserIfNotFound("test@test.com", "Test", "Test", "test", new ArrayList<>(Arrays.asList(adminRole)));
+        createUserIfNotFound("test@test.com", "Test", "Test", "test1234", new ArrayList<>(Arrays.asList(adminRole)));
 
         alreadySetup = true;
     }
@@ -91,6 +91,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             user = new User();
             user.setFirstname(firstName);
             user.setLastname(lastName);
+            user.setUsername("adminTest");
             user.setPassword(passwordEncoder.encode(password));
             user.setEmail(email);
             user.isEnabled();
