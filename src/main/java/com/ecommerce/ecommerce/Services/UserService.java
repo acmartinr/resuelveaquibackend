@@ -5,6 +5,7 @@ import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.payload.request.SignupRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
@@ -41,17 +43,13 @@ public class UserService {
         return p;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(Long id){
         userRepository.deleteById(id);
     }
 
     public Optional<User> findByID(Long id){
         return userRepository.findById(id);
-    }
-
-    public User signUp(SignupRequest user) {
-        String encodedPassword= passwordEncoder.encode(CharBuffer.wrap(user.getPassword()));
-        return new User(user.getFirstname(),user.getLastname(),user.getAddress(),user.getUsername(), user.getEmail(),encodedPassword,"1");
     }
 
     public Optional<User> getByUsername(String nombreUsuario){

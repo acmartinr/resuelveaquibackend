@@ -4,6 +4,7 @@ import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -42,6 +43,13 @@ public class User {
 
     @OneToMany(mappedBy = "userOrder", cascade = CascadeType.ALL)
     private Set<Order> orders;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
 
     public User(){
         super();
@@ -142,6 +150,15 @@ public class User {
 
     public void setShoppingCar(ShoppingCar shoppingCar) {
         this.shoppingCar = shoppingCar;
+    }
+
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     /* public Set<Sale> getSale() {

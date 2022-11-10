@@ -21,7 +21,7 @@ public class WebConfig {
 
     @Value("${microvelox.app.baseUrl}")
     private String baseUrl;
-
+/*
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -47,4 +47,6 @@ public class WebConfig {
         bean.setOrder(CORS_FILTER_ORDER);
         return bean;
     }
+
+ */
 }
