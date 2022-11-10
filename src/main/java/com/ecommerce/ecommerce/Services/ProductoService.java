@@ -19,10 +19,12 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
+
     public Producto create(Producto producto){
        return productoRepository.save(producto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Producto> getAllProducts(){
         return productoRepository.findAll();
     }
