@@ -5,6 +5,7 @@ import com.ecommerce.ecommerce.Repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +27,7 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Producto update(Long id, Producto producto){
         Optional<Producto> entity=productoRepository.findById(id);
         Producto p=entity.get();
@@ -47,6 +49,7 @@ public class ProductoService {
         return p;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(Long id){
         productoRepository.deleteById(id);
     }
