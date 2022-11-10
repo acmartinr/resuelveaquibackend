@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,12 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private static final String  devUrl = "http://localhost:3000";
 
     @Autowired
-    private ProductoService productoService;
+    ProductoService productoService;
 
     @CrossOrigin
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
             produces=MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile[] archivos,@RequestPart Producto producto) throws IOException {
@@ -51,10 +52,13 @@ public class ProductController {
         producto.setImg(a);
         producto.setThumb(a);
         producto.setDate(LocalDateTime.now());
+        System.out.println("ddddddddddd");
+        System.out.println(productoService);
         try {
             return ResponseEntity.status(HttpStatus.OK).body(productoService.create(producto));
         }
         catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
@@ -95,18 +99,22 @@ public class ProductController {
     }*/
 
     @CrossOrigin
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Producto producto){
         try {
+            System.out.println(productoService);
             return ResponseEntity.status(HttpStatus.OK).body(productoService.update(id,producto));
         }
         catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @CrossOrigin
-   @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("/delete/{id}")
    public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
         if(productoService.findByID(id)==null)
             return ResponseEntity.ok(Boolean.FALSE);

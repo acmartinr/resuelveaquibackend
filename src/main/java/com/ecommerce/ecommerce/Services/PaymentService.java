@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import com.ecommerce.ecommerce.Models.Token;
+import com.ecommerce.ecommerce.Utils.PDFGenerator;
 import com.ecommerce.ecommerce.payload.request.PaymentRequest;
 import com.stripe.model.PaymentIntent;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
+import org.springframework.web.bind.annotation.RequestPart;
 
 @Service
 public class PaymentService {
@@ -25,16 +28,18 @@ public class PaymentService {
     public void init() {
         Stripe.apiKey = secretKey;
     }
-    public String charge(PaymentRequest chargeRequest) throws StripeException {
+    public String charge(int amount,String currency,String tokenId) throws StripeException {
         Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", chargeRequest.getAmount());
-        chargeParams.put("currency", chargeRequest.getCurrency());
-        chargeParams.put("source", chargeRequest.getToken().getId());
-
+        chargeParams.put("amount", amount);
+        chargeParams.put("currency", currency);
+        Token token = new Token();
+        token.setId(tokenId);
+        chargeParams.put("source", token.getId());
+        System.out.println("DDDDDDDDDDDDDDDDD");
+        System.out.println(amount);
         Charge charge = Charge.create(chargeParams);
         return charge.getId();
     }
-
     public PaymentIntent paymentIntent(PaymentRequest paymentRequest) throws StripeException {
         Stripe.apiKey = secretKey;
         List<String> paymentMethodTypes = new ArrayList();
@@ -61,5 +66,11 @@ public class PaymentService {
         PaymentIntent paymentIntent = PaymentIntent.retrieve(id);
         paymentIntent.cancel();
         return paymentIntent;
+    }
+
+
+    public String processPayment(int amount,String currency,String tokenId) throws StripeException {
+        String chargeId = charge(amount,currency,tokenId);
+        return chargeId;
     }
 }
