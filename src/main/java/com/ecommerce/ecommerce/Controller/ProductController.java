@@ -74,6 +74,7 @@ public class ProductController {
     @CrossOrigin
     @GetMapping("/all")
     public ResponseEntity<List<Producto>> getAllProducts() {
+        System.out.println(productoService);
         List<Producto> le = productoService.getAllProducts();
         System.out.println(le.size());
         return ResponseEntity.ok(le);
@@ -81,8 +82,9 @@ public class ProductController {
 
     @CrossOrigin
     @GetMapping(value = "get/{id}")
-    private ResponseEntity<Optional<Producto>> buscar(@PathVariable ("id") Long id){
-        return ResponseEntity.ok(productoService.findByID(id));
+    private ResponseEntity<?> buscar(@PathVariable ("id") Long id){
+        System.out.println(productoService);
+        return ResponseEntity.ok(productoService.findByID(id).get());
     }
 
 
