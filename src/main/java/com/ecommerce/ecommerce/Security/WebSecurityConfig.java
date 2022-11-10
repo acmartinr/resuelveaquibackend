@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         // securedEnabled = true,
         // jsr250Enabled = true,
         prePostEnabled = true)
-public class WebSecurityConfig { //extends WebSecurityConfigurerAdapter
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     UserDetailsServiceImpl userDetailsService;
     @Autowired
@@ -56,28 +56,22 @@ public class WebSecurityConfig { //extends WebSecurityConfigurerAdapter
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()//csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                //.and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/email-password/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/category/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/users/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/products/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/products/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/shoppingCart/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/sales/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/dashboard/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/invoice/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/product-images/Thumbs/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/product-images/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/orders/**").permitAll() //permit request withoit login to that url
+                .antMatchers("/api/products/**").permitAll() //permit request withoit login to that url
+                .antMatchers("/api/category/**").permitAll() //permit request withoit login to that url
+                //.antMatchers("/api/csrf/**").permitAll() //permit request withoit login to that url
                 .anyRequest().authenticated();
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
     }
 
 }
