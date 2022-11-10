@@ -33,7 +33,6 @@ public class ProductController {
     ProductoService productoService;
 
     @CrossOrigin
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value="/create", method=RequestMethod.POST,consumes={MediaType.MULTIPART_FORM_DATA_VALUE},
             produces=MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Producto> create(@RequestPart("image") MultipartFile[] archivos,@RequestPart Producto producto) throws IOException {
@@ -101,7 +100,6 @@ public class ProductController {
     }*/
 
     @CrossOrigin
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Producto producto){
         try {
@@ -115,7 +113,6 @@ public class ProductController {
     }
 
     @CrossOrigin
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/delete/{id}")
    public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
         if(productoService.findByID(id)==null)
