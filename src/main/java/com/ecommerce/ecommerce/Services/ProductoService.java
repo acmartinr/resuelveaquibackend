@@ -19,20 +19,20 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
-
-    public Producto create(Producto producto){
-       return productoRepository.save(producto);
+    @PreAuthorize("hasRole('ADMIN')")
+    public Producto create(Producto producto) {
+        return productoRepository.save(producto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Producto> getAllProducts(){
+
+    public List<Producto> getAllProducts() {
         return productoRepository.findAll();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public Producto update(Long id, Producto producto){
-        Optional<Producto> entity=productoRepository.findById(id);
-        Producto p=entity.get();
+    public Producto update(Long id, Producto producto) {
+        Optional<Producto> entity = productoRepository.findById(id);
+        Producto p = entity.get();
         /*p.setDate(producto.getDate());
         p.setImg(producto.getImg());
         p.setThumb(producto.getThumb());
@@ -52,19 +52,19 @@ public class ProductoService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public void delete(Long id){
+    public void delete(Long id) {
         productoRepository.deleteById(id);
     }
 
-    public Optional<Producto> findByID(Long id){
+    public Optional<Producto> findByID(Long id) {
         return productoRepository.findById(id);
     }
 
-    public Page<Producto> pagination(Pageable pageable){
+    public Page<Producto> pagination(Pageable pageable) {
         return productoRepository.findAll(pageable);
     }
 
-    public Page<Producto> paginationSearch(String name,String type, Pageable pageable){
-        return productoRepository.findByProductName(name,type, pageable);
+    public Page<Producto> paginationSearch(String name, String type, Pageable pageable) {
+        return productoRepository.findByProductName(name, type, pageable);
     }
 }
