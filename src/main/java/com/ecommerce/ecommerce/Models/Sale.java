@@ -13,8 +13,8 @@ public class Sale {
     private String dateAndTime;
 
     private Double amount;
-
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.MERGE)
+    //@OneToMany(mappedBy = "sale", cascade = CascadeType.MERGE) -> recomendacion de stackoverflow
+    @OneToMany(mappedBy = "sale")
     private Set<ProductSold> products;
 
     @ManyToOne
