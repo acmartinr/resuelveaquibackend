@@ -9,7 +9,7 @@ public class ShoppingCar {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String products = "[]";
+    private String products;
 
     @OneToMany(mappedBy = "shoppingCar", cascade = CascadeType.ALL)
     private Set<ProductSold> productSolds;
