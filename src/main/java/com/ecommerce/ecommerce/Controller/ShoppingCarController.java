@@ -1,6 +1,5 @@
 package com.ecommerce.ecommerce.Controller;
 
-import com.ecommerce.ecommerce.Models.ProductSold;
 import com.ecommerce.ecommerce.Models.Producto;
 import com.ecommerce.ecommerce.Models.ShoppingCar;
 import com.ecommerce.ecommerce.Models.User;
@@ -10,9 +9,9 @@ import com.ecommerce.ecommerce.Services.ShoppingCarService;
 import com.ecommerce.ecommerce.Services.UserService;
 import com.ecommerce.ecommerce.payload.request.Cart;
 import com.google.gson.Gson;
+import com.stripe.model.Product;
 import org.hibernate.annotations.Any;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,17 +72,26 @@ public class ShoppingCarController {
     }
 
     @PostMapping(value = "/addToCar/{userid}")
-    public ResponseEntity<String> agregarAlCarrito(@RequestBody Cart cart, @PathVariable("userid") Long userid) {
+    public ResponseEntity<String> agregarAlCarrito(@RequestPart Cart cart, @PathVariable("userid") Long userid) {
+
         Gson gson = new Gson();
         try {
-            String cartValue = gson.toJson(cart).toString();
+            List<Cart> a= new ArrayList<>();
+           // String cartValue = gson.toJson(cart).toString();
             long cartId = userService.findByID(userid).get().getShoppingCar().getId();
             ShoppingCar sc = shoppingCarService.findByID(cartId).get();
             Producto productoBuscado = productoService.findByID(cart.getId()).get();
+            //String p= gson.toJson(sc.getProducts());
+            //return ResponseEntity.ok(p);
+
             if (productoBuscado.isShipping()) {
-                List<Cart> lc = gson.fromJson(sc.getProducts(), List.class);
-                lc.add(cart);
-                String newProducts = gson.toJson(lc).toString();
+                //a.add(cart);
+              //  List<Cart> lc = gson.fromJson(p, List.class);
+               // return ResponseEntity.ok("Producto agregado al carrito correctamente");
+
+                a.add(cart);
+                String newProducts = gson.toJson(a);
+               // return ResponseEntity.ok(newProducts);
                 sc.setProducts(newProducts);
                 shoppingCarService.update(sc.getId(), sc);
                 return ResponseEntity.ok("Producto agregado al carrito correctamente");
@@ -94,6 +102,8 @@ public class ShoppingCarController {
         } catch (Exception e) {
             return (ResponseEntity<String>) ResponseEntity.badRequest();
         }
+
+
 
 
 
@@ -113,9 +123,17 @@ public class ShoppingCarController {
 
     }
 
+    //@PostMapping(value = "/addToCar/{userid}")
+    public ResponseEntity<String> newAddCarrito(@RequestParam Product product, @RequestParam @PathVariable("userid") Long userid) {
 
 
-    @GetMapping("/add")
+        return (ResponseEntity<String>) ResponseEntity.badRequest();
+    }
+
+
+
+
+        @GetMapping("/add")
     public ResponseEntity<String> addToCart(@RequestBody Producto product) {
 
         return ResponseEntity.ok("200");
