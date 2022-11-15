@@ -6,6 +6,7 @@ import com.ecommerce.ecommerce.Security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -66,8 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/email-password/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/product-images/Thumbs/**").permitAll() //permit request withoit login to that url
                 .antMatchers("/product-images/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/products/**").permitAll() //permit request withoit login to that url
-                .antMatchers("/api/category/**").permitAll() //permit request withoit login to that url
+                .antMatchers(HttpMethod.GET,"/api/products/**").permitAll() //permit request withoit login to that url
+                .antMatchers(HttpMethod.GET,"/api/category/**").permitAll() //permit request withoit login to that url
                 //.antMatchers("/api/csrf/**").permitAll() //permit request withoit login to that url
                 .anyRequest().authenticated();
         http.authenticationProvider(authenticationProvider());
