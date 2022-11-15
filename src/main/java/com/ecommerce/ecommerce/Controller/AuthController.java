@@ -93,7 +93,7 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getFirstname(),signUpRequest.getLastname(),signUpRequest.getAddress(),signUpRequest.getUsername(), signUpRequest.getEmail(),encoder.encode(signUpRequest.getPassword()),"1");
+        User user = new User(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getAddress(), signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()), "1");
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
@@ -126,7 +126,8 @@ public class AuthController {
 
         user.setRoles(roles);
         userRepository.save(user);
-
+        //Send welcome email
+        emailService.sendSimpleMessage(signUpRequest.getEmail(), "Hola bienvenido a resuelveAqui", "Bienvenido a ResuelveAqui");
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
     /*
