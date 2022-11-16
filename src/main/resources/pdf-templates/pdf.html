@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        h1{
+            color: brown;
+        }
+        .sale {
+            width: 100%;
+        }
+        .sale, .sale th, .sale td {
+            border: 1px solid brown;
+            border-collapse: collapse;
+        }
+        .sale th {
+            background-color: brown;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h1>Quotation</h1>
+<table>
+    <tr>
+        <th>Customer</th>
+    </tr>
+    <tr>
+        <td th:text="'Firstname: ' + ${user.firstname}"></td>
+    </tr>
+    <tr>
+        <td th:text="'Lastname: ' + ${user.lastname}"></td>
+    </tr>
+    <tr>
+        <td th:text="'Address: ' + ${user.address}"></td>
+    </tr>
+    <tr>
+        <td th:text="'Email: ' + ${user.email}"></td>
+    </tr>
+
+</table>
+<br />
+<table>
+    <tr>
+        <th>Order</th>
+    </tr>
+    <tr>
+        <td th:text="'Date and time: ' + ${order.dateAndTime}"></td>
+    </tr>
+    <tr>
+        <td th:text="'Address to delivery: ' + ${order.address}"></td>
+    </tr>
+    <tr>
+        <td th:text="'Name of person in charge: ' + ${order.name}"></td>
+    </tr>
+    <tr>
+        <td th:text="'Phone: ' + ${order.telef}"></td>
+    </tr>
+    <tr>
+        <td th:text="'City: ' + ${order.city}"></td>
+    </tr>
+    <tr>
+        <td th:text="'Province: ' + ${order.province}"></td>
+    </tr>
+
+</table>
+<br />
+<table class="sale">
+    <tr>
+        <th>Item #</th>
+        <th>ID</th>
+        <th>Quantity</th>
+    </tr>
+    <tr th:each="item, iterStat: ${productSold}">
+        <td th:text="${iterStat.index + 1}"></td>
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.quantity}"></td>
+    </tr>
+</table>
+<h2 th:text="'Amount: ' + ${amount}"></h2>>
+</body>
+</html>
