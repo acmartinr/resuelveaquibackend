@@ -3,21 +3,35 @@ package com.ecommerce.ecommerce.Services;
 
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
+import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
+import com.ecommerce.ecommerce.Security.services.UserDetailsImpl;
+import com.ecommerce.ecommerce.payload.request.LoginRequest;
 import com.ecommerce.ecommerce.payload.request.SignupRequest;
+import com.ecommerce.ecommerce.payload.response.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.CharBuffer;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    JwtUtils jwtUtils;
+    @Autowired
+    AuthenticationManager authenticationManager;
+
 
     private final PasswordEncoder passwordEncoder;
 
@@ -74,6 +88,25 @@ public class UserService {
 
     public void save(User user){
         userRepository.save(user);
+    }
+
+
+    public JwtResponse generateJwtUserServiceToken(LoginRequest loginRequest){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+        return new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles);
     }
 
 }

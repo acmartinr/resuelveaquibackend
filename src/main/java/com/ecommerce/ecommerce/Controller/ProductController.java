@@ -86,14 +86,12 @@ public class ProductController {
     public ResponseEntity<List<Producto>> getAllProducts() {
         System.out.println(productoService);
         List<Producto> le = productoService.getAllProducts();
-        System.out.println(le.size());
         return ResponseEntity.ok(le);
     }
 
     @CrossOrigin
     @GetMapping(value = "get/{id}")
     private ResponseEntity<?> buscar(@PathVariable ("id") Long id){
-        System.out.println(productoService);
         return ResponseEntity.ok(productoService.findByID(id).get());
     }
 
@@ -114,7 +112,6 @@ public class ProductController {
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Producto producto){
         try {
-            System.out.println(productoService);
             return ResponseEntity.status(HttpStatus.OK).body(productoService.update(id,producto));
         }
         catch (Exception e){
