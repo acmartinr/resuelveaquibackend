@@ -5,6 +5,10 @@ import com.ecommerce.ecommerce.Models.Producto;
 import com.ecommerce.ecommerce.Services.ProductoService;
 import com.ecommerce.ecommerce.Utils.FileUploadUtil;
 import com.ecommerce.ecommerce.Utils.ThumbnailCreateUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +28,8 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.*;
 
+
+@Api(tags = "Product Controller End Point")
 @CrossOrigin
 @RestController
 @RequestMapping("/api/products")
@@ -70,6 +76,11 @@ public class ProductController {
         return ResponseEntity.ok("Hello");
     }*/
 
+    @ApiOperation(value = "Return allproducts budled into response", notes = "Return 204 if not data founded")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "There are not super heroes"),
+            @ApiResponse(code = 500, message = "Internal error")
+    })
     @CrossOrigin
     @GetMapping("/all")
     public ResponseEntity<List<Producto>> getAllProducts() {
