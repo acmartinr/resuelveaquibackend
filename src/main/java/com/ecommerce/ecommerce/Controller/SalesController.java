@@ -2,6 +2,7 @@ package com.ecommerce.ecommerce.Controller;
 
 import com.ecommerce.ecommerce.Models.*;
 import com.ecommerce.ecommerce.Repository.*;
+import com.ecommerce.ecommerce.Security.services.PdfGenerateService;
 import com.ecommerce.ecommerce.Services.*;
 import com.ecommerce.ecommerce.Utils.Constants;
 import com.ecommerce.ecommerce.Utils.DateTimeUtil;
@@ -43,6 +44,9 @@ public class SalesController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    private PdfGenerateService pdfGenerateService;
+
     @GetMapping(value = "/")
     public ResponseEntity<List<Sale>> showSales() {
         List<Sale> sales = saleService.findAll();
@@ -63,7 +67,13 @@ public class SalesController {
         } else {
             String chargeId = paymentService.processPayment(request.getAmount(),request.getCurrency(),request.getToken().getId());
             if (chargeId != null) {
-                orderService.generatePdf(order, saleObject, productsAfterSold, amount, user);
+                Map<String, Object> data = new HashMap<>();
+                data.put("productSold", productsAfterSold);
+                data.put("order", order);
+                data.put("user", user);
+                data.put("amount", amount);
+                pdfGenerateService.generatePdfFile("pdf", data, java.util.UUID.randomUUID().toString()+".pdf");
+                //orderService.generatePdf(order, saleObject, productsAfterSold, amount, user);
                 return new ResponseEntity<>(chargeId, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(Constants.INCORRECT_CARD_CODE), HttpStatus.BAD_REQUEST);
