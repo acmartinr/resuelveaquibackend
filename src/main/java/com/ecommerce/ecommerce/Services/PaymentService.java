@@ -7,8 +7,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import com.ecommerce.ecommerce.Models.Token;
-import com.ecommerce.ecommerce.Utils.PDFGenerator;
-import com.ecommerce.ecommerce.payload.request.PaymentRequest;
+import com.ecommerce.ecommerce.common.payload.request.PaymentRequest;
 import com.stripe.model.PaymentIntent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
-import org.springframework.web.bind.annotation.RequestPart;
 
 @Service
 public class PaymentService {

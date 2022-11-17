@@ -7,7 +7,7 @@ import com.ecommerce.ecommerce.Services.ProductSoldService;
 import com.ecommerce.ecommerce.Services.ProductoService;
 import com.ecommerce.ecommerce.Services.ShoppingCarService;
 import com.ecommerce.ecommerce.Services.UserService;
-import com.ecommerce.ecommerce.payload.request.Cart;
+import com.ecommerce.ecommerce.common.payload.request.Cart;
 import com.google.gson.Gson;
 import com.stripe.model.Product;
 import org.hibernate.annotations.Any;

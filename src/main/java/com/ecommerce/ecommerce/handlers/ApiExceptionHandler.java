@@ -1,13 +1,12 @@
 package com.ecommerce.ecommerce.handlers;
 
-import com.ecommerce.ecommerce.payload.response.StandarizedApiExceptionResponse;
+import com.ecommerce.ecommerce.common.payload.exception.BussinesRuleException;
+import com.ecommerce.ecommerce.common.payload.response.StandarizedApiExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
@@ -22,6 +21,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandarizedApiExceptionResponse> handleNoContentExcpeption(Exception ex) {
         StandarizedApiExceptionResponse response = new StandarizedApiExceptionResponse("Validation error", "1024",ex.getMessage());
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BussinesRuleException.class)
+    public ResponseEntity<StandarizedApiExceptionResponse> handleNoContentExcpeption(BussinesRuleException ex) {
+        StandarizedApiExceptionResponse response = new StandarizedApiExceptionResponse("Producto insuficiente", "1026",ex.getMessage());
         return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
 /*
