@@ -22,9 +22,6 @@ public class PdfGenerateServiceImpl implements PdfGenerateService {
     @Autowired
     private TemplateEngine templateEngine;
 
-    @Value("${pdf.directory}")
-    private String pdfDirectory;
-
     @Override
     public void generatePdfFile(String templateName, Map<String, Object> data, String pdfFileName) {
         Context context = new Context();
@@ -32,7 +29,14 @@ public class PdfGenerateServiceImpl implements PdfGenerateService {
 
         String htmlContent = templateEngine.process(templateName, context);
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(pdfDirectory + pdfFileName);
+            FileOutputStream fileOutputStream ;
+            //Check if run system is windows or not for set path
+            String systemName = System.getProperties().get("os.name").toString();
+            if(systemName.contains("Windows")){
+                fileOutputStream =  new FileOutputStream("invoice\\"+pdfFileName);
+            }else{
+                fileOutputStream =  new FileOutputStream("invoice//"+pdfFileName);
+            }
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlContent);
             renderer.layout();
