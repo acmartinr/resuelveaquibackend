@@ -8,6 +8,7 @@ import com.ecommerce.ecommerce.Models.Sale;
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.ProductSoldRepository;
 import com.ecommerce.ecommerce.Repository.ProductoRepository;
+import com.ecommerce.ecommerce.common.payload.exception.BussinesRuleException;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -24,6 +25,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 
@@ -51,10 +54,15 @@ public class ProductSoldServiceUTest {
         given(productoRepository.findById(3L)).willReturn(java.util.Optional.of(Datos.productTest3));
         given(productoRepository.findById(4L)).willReturn(java.util.Optional.of(Datos.productTest4));
         given(productoSoldRepository.save(ArgumentMatchers.any())).willReturn(Datos.productSoldTest1);
-        List<ProductSold> productsAfterSold = productSoldService.addAllProductSold(productos, user, sale);
-        System.out.println(productsAfterSold.size());
-        assertThat(productsAfterSold.get(0).getQuantity(), is(90));
+
+        Exception exception = assertThrows(BussinesRuleException.class, () -> {
+            List<ProductSold> productsAfterSold = productSoldService.addAllProductSold(productos, user, sale);
+        });
+        String exceptionTxt = "Cantidad de elementos del tipo: "+Datos.productTest3.getName()+" insuficientes en la tienda";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(exceptionTxt));
     }
+
     @Test
     @WithMockUser(username="admin",roles={"USER","ADMIN"})
     void should_add_all_products_to_products_sold() throws Exception {
