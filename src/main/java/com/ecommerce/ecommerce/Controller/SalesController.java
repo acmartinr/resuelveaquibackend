@@ -5,10 +5,8 @@ import com.ecommerce.ecommerce.Repository.*;
 import com.ecommerce.ecommerce.Security.services.PdfGenerateService;
 import com.ecommerce.ecommerce.Services.*;
 import com.ecommerce.ecommerce.Utils.Constants;
-import com.ecommerce.ecommerce.Utils.DateTimeUtil;
-import com.ecommerce.ecommerce.Utils.PDFGenerator;
-import com.ecommerce.ecommerce.payload.request.PaymentRequest;
-import com.ecommerce.ecommerce.payload.response.ErrorResponse;
+import com.ecommerce.ecommerce.common.payload.request.PaymentRequest;
+import com.ecommerce.ecommerce.common.payload.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +42,7 @@ public class SalesController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    private PdfGenerateService pdfGenerateService;
+
 
     @GetMapping(value = "/")
     public ResponseEntity<List<Sale>> showSales() {
@@ -55,7 +52,7 @@ public class SalesController {
 
 
     @PostMapping(value = "/create_sale")
-    @Transactional(readOnly = false, isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = false, isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     public ResponseEntity<Object> createSale(@RequestPart ProductSold[] productos, @RequestPart double amount,
                                              @RequestPart Long user_id, @RequestPart Order order,
                                              @RequestPart PaymentRequest request) throws Exception {
@@ -67,15 +64,7 @@ public class SalesController {
         } else {
             String chargeId = paymentService.processPayment(request.getAmount(),request.getCurrency(),request.getToken().getId());
             if (chargeId != null) {
-                Map<String, Object> data = new HashMap<>();
-                data.put("productSold", productsAfterSold);
-                data.put("order", order);
-                data.put("user", user);
-                data.put("amount", amount);
-                String pdf=java.util.UUID.randomUUID().toString();
-                order.setBill_payment(pdf+".pdf");
-                pdfGenerateService.generatePdfFile("pdf", data, pdf+".pdf");
-                //orderService.generatePdf(order, saleObject, productsAfterSold, amount, user);
+                orderService.generatePdf(order, saleObject, productsAfterSold, amount, user);
                 return new ResponseEntity<>(chargeId, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(new ErrorResponse(Constants.INCORRECT_CARD_CODE), HttpStatus.BAD_REQUEST);
