@@ -1,6 +1,7 @@
 package com.ecommerce.ecommerce.handlers;
 
 import com.ecommerce.ecommerce.common.payload.exception.BussinesRuleException;
+import com.ecommerce.ecommerce.common.payload.exception.CreditCardException;
 import com.ecommerce.ecommerce.common.payload.response.StandarizedApiExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(BussinesRuleException.class)
     public ResponseEntity<StandarizedApiExceptionResponse> handleNoContentExcpeption(BussinesRuleException ex) {
         StandarizedApiExceptionResponse response = new StandarizedApiExceptionResponse("Producto insuficiente", "1026",ex.getMessage());
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CreditCardException.class)
+    public ResponseEntity<StandarizedApiExceptionResponse> handlebadCreditCard(CreditCardException ex) {
+        StandarizedApiExceptionResponse response = new StandarizedApiExceptionResponse("Error al realizar pago", "1027",ex.getMessage());
         return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
 /*
