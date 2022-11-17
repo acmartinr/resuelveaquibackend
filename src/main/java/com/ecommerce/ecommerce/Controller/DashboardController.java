@@ -1,25 +1,18 @@
 package com.ecommerce.ecommerce.Controller;
 
 
-import com.ecommerce.ecommerce.Models.Order;
-import com.ecommerce.ecommerce.Models.Producto;
-import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.OrderRepository;
 import com.ecommerce.ecommerce.Repository.ProductoRepository;
 import com.ecommerce.ecommerce.Repository.SalesRepository;
 import com.ecommerce.ecommerce.Repository.UserRepository;
-import com.ecommerce.ecommerce.payload.response.DashBoardValue;
+import com.ecommerce.ecommerce.common.payload.response.DashBoardValue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 @CrossOrigin
 @Controller

@@ -1,6 +1,6 @@
 package com.ecommerce.ecommerce.Controller;
 
-import com.ecommerce.ecommerce.payload.request.PaymentRequest;
+import com.ecommerce.ecommerce.common.payload.request.PaymentRequest;
 import com.ecommerce.ecommerce.Services.PaymentService;
 import com.stripe.model.PaymentIntent;
 import org.springframework.beans.factory.annotation.Autowired;
