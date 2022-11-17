@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.payload.request;
+package com.ecommerce.ecommerce.common.payload.request;
 
 import com.ecommerce.ecommerce.Models.Token;
 

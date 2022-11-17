@@ -1,4 +1,4 @@
-package com.ecommerce.ecommerce.payload.response;
+package com.ecommerce.ecommerce.common.payload.response;
 
 import com.ecommerce.ecommerce.Utils.Constants;
 

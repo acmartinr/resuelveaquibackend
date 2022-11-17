@@ -1,8 +1,7 @@
-package com.ecommerce.ecommerce.payload.request;
+package com.ecommerce.ecommerce.common.payload.request;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 
 public class  SignupRequest {
