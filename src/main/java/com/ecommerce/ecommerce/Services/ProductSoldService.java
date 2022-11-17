@@ -6,6 +6,7 @@ import com.ecommerce.ecommerce.Models.Sale;
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.ProductSoldRepository;
 import com.ecommerce.ecommerce.Repository.ProductoRepository;
+import com.ecommerce.ecommerce.common.payload.exception.BussinesRuleException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -48,12 +49,13 @@ public class ProductSoldService {
     }
 
 
-    public List<ProductSold> addAllProductSold(ProductSold[] productsSold, User user, Sale saleObject){
+    public List<ProductSold> addAllProductSold(ProductSold[] productsSold, User user, Sale saleObject) throws BussinesRuleException {
        List<ProductSold> productsAfterSold = new ArrayList<>();
         for (ProductSold productSold : productsSold) {
             Producto pr = productoRepository.findById(productSold.getId()).get();
             if (pr.getStock() < productSold.getQuantity())
-                return new ArrayList<>();
+                throw new BussinesRuleException("1026","Cantidad de elementos del tipo: "+pr.getName()+" insuficientes en la tienda");
+                //return new ArrayList<>();
             //return ResponseEntity.ok("Solo hay una disponibilidad total de " + pr.getStock() + " para " + pr.getName());
             pr.subtracExistence(productSold.getQuantity());
             productoService.update(pr.getId(), pr);
