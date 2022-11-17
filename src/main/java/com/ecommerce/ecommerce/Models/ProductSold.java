@@ -22,9 +22,9 @@ public class ProductSold {
     public ProductSold() {
         super();
     }
-    public ProductSold(Long idp,Integer quantity) {
+    public ProductSold(Long id,Integer quantity) {
         this.quantity = quantity;
-        //this.sale = sale;
+        this.id = id;
     }
 
 

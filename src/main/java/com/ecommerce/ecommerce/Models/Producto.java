@@ -60,6 +60,15 @@ public class Producto {
         this.category=category;
         this.shipping=shipping;
     }
+    public Producto(Long id,String name,Double price,Integer stock,String code,String category, Boolean shipping) {
+        this.name=name;
+        this.price=price;
+        this.stock=stock;
+        this.code=code;
+        this.category=category;
+        this.shipping=shipping;
+        this.id=id;
+    }
 
     /*public Producto(String name,Double price,String code,String category, boolean shipping) {
         this.name=name;

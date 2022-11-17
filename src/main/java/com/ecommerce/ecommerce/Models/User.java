@@ -54,6 +54,18 @@ public class User {
     public User(){
         super();
     }
+
+    public User(Long id,String firstname, String lastname,String address, String username, String email, String password,String rol){
+        this.firstname=firstname;
+        this.lastname=lastname;
+        this.address=address;
+        this.username=username;
+        this.email=email;
+        this.password=password;
+        this.rol = rol;
+        this.id = id;
+    }
+
     public User(String firstname, String lastname,String address, String username, String email, String password,String rol){
         this.firstname=firstname;
         this.lastname=lastname;
