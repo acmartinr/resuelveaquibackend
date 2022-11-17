@@ -5,6 +5,7 @@ import com.ecommerce.ecommerce.Repository.*;
 import com.ecommerce.ecommerce.Security.services.PdfGenerateService;
 import com.ecommerce.ecommerce.Services.*;
 import com.ecommerce.ecommerce.Utils.Constants;
+import com.ecommerce.ecommerce.common.payload.exception.CreditCardException;
 import com.ecommerce.ecommerce.common.payload.request.PaymentRequest;
 import com.ecommerce.ecommerce.common.payload.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class SalesController {
                 orderService.generatePdf(order, saleObject, productsAfterSold, amount, user);
                 return new ResponseEntity<>(chargeId, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(new ErrorResponse(Constants.INCORRECT_CARD_CODE), HttpStatus.BAD_REQUEST);
+                throw new CreditCardException("1100","Por favor , revise los detalles de la tarjeta de credito");
             }
         }
     }
