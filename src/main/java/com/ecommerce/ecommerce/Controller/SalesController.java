@@ -72,7 +72,9 @@ public class SalesController {
                 data.put("order", order);
                 data.put("user", user);
                 data.put("amount", amount);
-                pdfGenerateService.generatePdfFile("pdf", data, java.util.UUID.randomUUID().toString()+".pdf");
+                String pdf=java.util.UUID.randomUUID().toString();
+                order.setBill_payment(pdf+".pdf");
+                pdfGenerateService.generatePdfFile("pdf", data, pdf+".pdf");
                 //orderService.generatePdf(order, saleObject, productsAfterSold, amount, user);
                 return new ResponseEntity<>(chargeId, HttpStatus.OK);
             } else {
