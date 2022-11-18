@@ -17,5 +17,6 @@ public class Datos {
     public static final ProductSold productSoldTest3 = new ProductSold(3L,12);
     public static final ProductSold productSoldTest4 = new ProductSold(4L,8);
 
+    public static final Sale sale = new Sale();
     public static final Sale saleObjectTest = new Sale();
 }
