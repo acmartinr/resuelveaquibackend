@@ -108,9 +108,6 @@ public class ProductController {
         return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
     }*/
 
-
-
-    @PreAuthorize("hasRole('ADMIN')")
     @CrossOrigin
     @PutMapping("update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Producto producto){

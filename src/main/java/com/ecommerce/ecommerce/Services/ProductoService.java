@@ -30,7 +30,15 @@ public class ProductoService {
     }
 
 
-   
+    public Producto updateFromUser(Long id, Producto producto) {
+        Optional<Producto> entity = productoRepository.findById(id);
+        Producto p = entity.get();
+        producto.setId(id);
+        productoRepository.save(producto);
+        return p;
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     public Producto update(Long id, Producto producto) {
         Optional<Producto> entity = productoRepository.findById(id);
         Producto p = entity.get();

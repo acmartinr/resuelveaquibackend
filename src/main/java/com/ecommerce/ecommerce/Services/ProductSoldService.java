@@ -58,7 +58,7 @@ public class ProductSoldService {
                 //return new ArrayList<>();
             //return ResponseEntity.ok("Solo hay una disponibilidad total de " + pr.getStock() + " para " + pr.getName());
             pr.subtracExistence(productSold.getQuantity());
-            productoService.update(pr.getId(), pr);
+            productoService.updateFromUser(pr.getId(), pr);
             ProductSold ps = new ProductSold();
             ps.setShoppingCar(user.getShoppingCar());
             ps.setSale(saleObject);
