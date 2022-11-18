@@ -29,7 +29,8 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
+   
     public Producto update(Long id, Producto producto) {
         Optional<Producto> entity = productoRepository.findById(id);
         Producto p = entity.get();
