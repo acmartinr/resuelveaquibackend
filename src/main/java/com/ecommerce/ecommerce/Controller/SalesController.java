@@ -2,7 +2,6 @@ package com.ecommerce.ecommerce.Controller;
 
 import com.ecommerce.ecommerce.Models.*;
 import com.ecommerce.ecommerce.Repository.*;
-import com.ecommerce.ecommerce.Security.services.PdfGenerateService;
 import com.ecommerce.ecommerce.Services.*;
 import com.ecommerce.ecommerce.Utils.Constants;
 import com.ecommerce.ecommerce.common.payload.exception.CreditCardException;
@@ -27,15 +26,9 @@ public class SalesController {
     @Autowired
     SaleService saleService;
     @Autowired
-    ProductoService productoService;
-    @Autowired
     ProductSoldService productSoldService;
     @Autowired
-    ProductoRepository productoRepository;
-    @Autowired
     UserRepository userRepository;
-    @Autowired
-    ShoppingCarRepository shoppingCarRepository;
     @Autowired
     PaymentService paymentService;
     @Autowired
