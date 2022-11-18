@@ -48,7 +48,7 @@ public class OrderService {
             data.put("productSold", productsAfterSold);
             data.put("order", order);
             data.put("user", user);
-            data.put("amount", amount);
+            data.put("amount", amount*100);
 
             String pdf=java.util.UUID.randomUUID().toString();
             order.setUserOrder(user);
