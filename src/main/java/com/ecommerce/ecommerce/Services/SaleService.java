@@ -29,16 +29,18 @@ public class SaleService {
         return salesRepository.findById(user);
     }
 
-    public Sale createSale(ProductSold[] productos, double amount, Long user_id) {
+    public Sale createSale(ProductSold[] productos, double amount, Long userId) {
         Sale sale = new Sale();
-        User user = userRepository.findById(user_id).get();
+        User user = userRepository.findById(userId).get();
         Set<ProductSold> products = new HashSet<>(Arrays.asList(productos));
         sale.setAmount(amount);
         sale.setProductsSolds(products);
         sale.setUserShopping(user);
         String time = DateTimeUtil.obtenerFechaYHoraActual();
         sale.setDateAndTime(time);
-        return salesRepository.save(sale);
+        salesRepository.save(sale);
+
+        return sale;
     }
 
 }
