@@ -8,6 +8,8 @@ import com.ecommerce.ecommerce.Models.Sale;
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.ProductSoldRepository;
 import com.ecommerce.ecommerce.Repository.ProductoRepository;
+import com.ecommerce.ecommerce.Repository.SalesRepository;
+import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.common.payload.exception.BussinesRuleException;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -37,7 +39,13 @@ public class ProductSoldServiceUTest {
     @MockBean
     private ProductoRepository productoRepository;
     @MockBean
+    private UserRepository userRepository;
+    @MockBean
     private ProductSoldRepository productoSoldRepository;
+    @MockBean
+    private SalesRepository salesRepository;
+    @Autowired
+    SaleService saleService;
 
     @Test
     @WithMockUser(username="admin",roles={"USER","ADMIN"})
@@ -82,4 +90,21 @@ public class ProductSoldServiceUTest {
         assertThat(productsAfterSold.get(1).getProduct().getStock(), is(20));
         assertThat(productsAfterSold.get(2).getProduct().getStock(), is(892));
     }
+
+    @Test
+    @WithMockUser(username="admin",roles={"USER","ADMIN"})
+    void should_create_sale() throws Exception {
+        double saleAmount = 100;
+        ProductSold productos[] = new ProductSold[3];
+        productos[0] = Datos.productSoldTest1;
+        productos[1] = Datos.productSoldTest2;
+        productos[2] = Datos.productSoldTest4;
+        given(userRepository.findById(1L)).willReturn(java.util.Optional.of(Datos.testUser));
+        given(salesRepository.save(ArgumentMatchers.any())).willReturn(Datos.sale);
+        Sale saleObject = saleService.createSale(productos, saleAmount, 1L);
+        assertThat(saleObject.getAmount(), is(saleAmount));
+        assertThat(saleObject.getProducts().size(), is(3));
+        assertThat(saleObject.getUserShopping().getId(), is(1L));
+    }
+
 }
