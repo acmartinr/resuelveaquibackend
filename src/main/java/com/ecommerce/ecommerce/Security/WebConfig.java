@@ -19,15 +19,18 @@ public class WebConfig {
     private static final Long MAX_AGE = 3600L;
     private static final int CORS_FILTER_ORDER = -102;
 
-    @Value("${microvelox.app.allowedOrigins}")
+    @Value("${microvelox.app.baseUrl}")
     private String baseUrl;
+    @Value("${microvelox.app.adminUrl}")
+    private String adminUrl;
 
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOriginPattern(baseUrl);
+        config.addAllowedOrigin(baseUrl);
+        config.addAllowedOrigin(adminUrl);
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.AUTHORIZATION,
                 HttpHeaders.CONTENT_TYPE,
