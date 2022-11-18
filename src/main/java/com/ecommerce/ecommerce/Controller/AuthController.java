@@ -12,6 +12,7 @@ import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 import com.ecommerce.ecommerce.Services.EmailServiceImpl;
 import com.ecommerce.ecommerce.Services.ShoppingCarService;
 import com.ecommerce.ecommerce.Services.UserService;
+import com.ecommerce.ecommerce.common.payload.exception.BussinesRuleException;
 import com.ecommerce.ecommerce.common.payload.request.LoginRequest;
 import com.ecommerce.ecommerce.common.payload.request.SignupRequest;
 import com.ecommerce.ecommerce.common.payload.response.JwtResponse;
@@ -50,6 +51,12 @@ public class AuthController {
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         JwtResponse jwtUserServiceToken = userService.generateJwtUserServiceToken(loginRequest);
+        return ResponseEntity.ok(jwtUserServiceToken);
+    }
+
+    @PostMapping("/signin_admin")
+    public ResponseEntity<?> authenticateAdmin(@Valid @RequestBody LoginRequest loginRequest) throws BussinesRuleException {
+        JwtResponse jwtUserServiceToken = userService.generateAdminJwtUserServiceToken(loginRequest);
         return ResponseEntity.ok(jwtUserServiceToken);
     }
 

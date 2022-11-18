@@ -5,6 +5,7 @@ import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.Security.jwt.JwtUtils;
 import com.ecommerce.ecommerce.Security.services.UserDetailsImpl;
+import com.ecommerce.ecommerce.common.payload.exception.BussinesRuleException;
 import com.ecommerce.ecommerce.common.payload.request.LoginRequest;
 import com.ecommerce.ecommerce.common.payload.response.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,32 @@ public class UserService {
                 userDetails.getEmail(),
                 roles);
     }
+
+
+    public JwtResponse generateAdminJwtUserServiceToken(LoginRequest loginRequest) throws BussinesRuleException {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+        System.out.println(roles.get(0));
+        if(roles.contains("ROLE_ADMIN")){
+            return new JwtResponse(jwt,
+                    userDetails.getId(),
+                    userDetails.getUsername(),
+                    userDetails.getEmail(),
+                    roles);
+        }else {
+            throw new BussinesRuleException("1000","Login only for Admin roles");
+        }
+
+    }
+
 
 }
 
