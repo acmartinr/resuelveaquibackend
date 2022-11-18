@@ -35,7 +35,8 @@ public class SalesController {
     OrderService orderService;
     @Autowired
     UserService userService;
-
+    @Autowired
+    private EmailServiceImpl emailService;
 
 
     @GetMapping(value = "/")
@@ -46,7 +47,7 @@ public class SalesController {
 
 
     @PostMapping(value = "/create_sale")
-    @Transactional(readOnly = false, isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
+    @Transactional(readOnly = false, isolation = Isolation.REPEATABLE_READ, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResponseEntity<Object> createSale(@RequestPart ProductSold[] productos, @RequestPart double amount,
                                              @RequestPart Long user_id, @RequestPart Order order,
                                              @RequestPart PaymentRequest request) throws Exception {
@@ -56,12 +57,13 @@ public class SalesController {
         if (productsAfterSold.isEmpty()) {
             return new ResponseEntity<>(new ErrorResponse(Constants.INSUFFICIENT_PRODUCT_STOCK), HttpStatus.BAD_REQUEST);
         } else {
-            String chargeId = paymentService.processPayment(request.getAmount(),request.getCurrency(),request.getToken().getId());
+            String chargeId = paymentService.processPayment(request.getAmount(), request.getCurrency(), request.getToken().getId());
             if (chargeId != null) {
+                emailService.sendSimpleMessage("info@resuelveaqui.com", "Hola , el usuario " + user.getFirstname() + " " + user.getLastname() + " ha realizado una compra.", "Compra realizada");
                 orderService.generatePdf(order, saleObject, productsAfterSold, amount, user);
                 return new ResponseEntity<>(chargeId, HttpStatus.OK);
             } else {
-                throw new CreditCardException("1100","Por favor , revise los detalles de la tarjeta de credito");
+                throw new CreditCardException("1100", "Por favor , revise los detalles de la tarjeta de credito");
             }
         }
     }
