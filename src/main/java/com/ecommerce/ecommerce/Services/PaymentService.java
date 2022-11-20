@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import com.ecommerce.ecommerce.Models.Token;
 import com.ecommerce.ecommerce.common.payload.request.PaymentRequest;
 import com.stripe.model.PaymentIntent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,19 @@ import com.stripe.model.Charge;
 @Service
 public class PaymentService {
 
-    @Value("${STRIPE_SECRET_KEY}")
-    private String secretKey;
-
+    private String secretKey = "";
+    @Value("${spring.profiles.active}")
+    private String envType;
+    @Autowired
+    private PaymentApiKeyService paymentApiKeyService;
     @PostConstruct
     public void init() {
-        Stripe.apiKey = secretKey;
+        if(envType.equals("dev")){
+            Stripe.apiKey = paymentApiKeyService.findDevKey();
+        }else {
+            Stripe.apiKey = paymentApiKeyService.findProdKey();
+        }
+        secretKey = Stripe.apiKey;
     }
     public String charge(int amount,String currency,String tokenId) throws StripeException {
         Map<String, Object> chargeParams = new HashMap<>();
