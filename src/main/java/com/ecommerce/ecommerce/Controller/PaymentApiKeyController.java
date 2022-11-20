@@ -17,7 +17,8 @@ import java.util.List;
 public class PaymentApiKeyController {
     @Autowired
     private PaymentApiKeyService paymentApiKeyService;
-
+    //Adicionar seguridad para que solo el admin pueda acceder a las keys desde el servicio
+/*
     @CrossOrigin
     @GetMapping("/prodkey")
     private ResponseEntity<String> prodKey(){
@@ -29,4 +30,6 @@ public class PaymentApiKeyController {
     private ResponseEntity<String> devKey() {
         return ResponseEntity.ok(paymentApiKeyService.findDevKey());
     }
+
+ */
 }
