@@ -17,7 +17,6 @@ public class PaymentApiKeyService {
     @Autowired
     private PaymentApiKeyRepository paymentApiKey;
 
-    @PreAuthorize("hasRole('ADMIN')")
     public PaymentApiKey create(PaymentApiKey producto) {
         return paymentApiKey.save(producto);
     }
@@ -26,6 +25,7 @@ public class PaymentApiKeyService {
         return paymentApiKey.findAll();
     }
 
+
     public String findProdKey() {
         if(paymentApiKey.findFirstByProduction(true).get() != null){
             return paymentApiKey.findFirstByProduction(true).get().getSecretKey();
@@ -33,6 +33,7 @@ public class PaymentApiKeyService {
             return "";
         }
     }
+
     public String findDevKey() {
         if(paymentApiKey.findFirstByProduction(false).get() != null){
             return paymentApiKey.findFirstByProduction(false).get().getSecretKey();
