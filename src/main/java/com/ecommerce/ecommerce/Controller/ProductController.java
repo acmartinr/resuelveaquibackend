@@ -143,7 +143,19 @@ public class ProductController {
             products = productoService.pagination(PageRequest.of(page, size, Sort.by(order).descending()));
         return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
     }
-
+    @GetMapping("/admin/all_productos")
+    public ResponseEntity<Page<Producto>> adminPagination(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "date") String order,
+            @RequestParam(defaultValue = "true") boolean asc
+    )
+    {
+        Page<Producto> products = productoService.adminPagination(PageRequest.of(page, size, Sort.by(order)));
+        if(!asc)
+            products = productoService.pagination(PageRequest.of(page, size, Sort.by(order).descending()));
+        return new ResponseEntity<Page<Producto>>(products, HttpStatus.OK);
+    }
     @GetMapping("/search")
     public ResponseEntity<Page<Producto>> search(
             @RequestParam(defaultValue = "0") int page,

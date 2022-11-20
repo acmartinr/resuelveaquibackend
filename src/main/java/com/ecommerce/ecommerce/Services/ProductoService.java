@@ -57,9 +57,14 @@ public class ProductoService {
     }
 
     public Page<Producto> pagination(Pageable pageable) {
-        return productoRepository.findAll(pageable);
+        //return productoRepository.findAll(pageable);
+        return productoRepository.findByShipping(true,pageable);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<Producto> adminPagination(Pageable pageable) {
+        return productoRepository.findAll(pageable);
+    }
     public Page<Producto> paginationSearch(String name, String type, Pageable pageable) {
         return productoRepository.findByProductName(name, type, pageable);
     }
