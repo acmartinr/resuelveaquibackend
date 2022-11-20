@@ -42,19 +42,6 @@ public class ProductoService {
     public Producto update(Long id, Producto producto) {
         Optional<Producto> entity = productoRepository.findById(id);
         Producto p = entity.get();
-        /*p.setDate(producto.getDate());
-        p.setImg(producto.getImg());
-        p.setThumb(producto.getThumb());
-        p.setCategory(producto.getCategory());
-        p.setCode(producto.getCode());
-        p.setColors(producto.getColors());
-        p.setCompany(producto.getCompany());
-        p.setDescription(producto.getDescription());
-        p.setDetails(producto.getDetails());
-        p.setFeatured(producto.getFeatured());
-        p.setName(producto.getName());
-        p.setPrice(producto.getPrice());
-        p.setShipping(producto.isShipping());*/
         producto.setId(id);
         productoRepository.save(producto);
         return p;
