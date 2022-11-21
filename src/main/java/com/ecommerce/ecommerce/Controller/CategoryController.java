@@ -32,7 +32,6 @@ public class CategoryController {
     @CrossOrigin
     @RequestMapping(value="/createCat")
     private ResponseEntity<Category> create( @RequestBody Category category) throws IOException {
-
         try {
             return ResponseEntity.status(HttpStatus.OK).body(categoryService.create(category));
         }

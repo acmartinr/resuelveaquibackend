@@ -22,9 +22,9 @@ public class CategoryService {
 
     public Category update(Long id, Category category){
         Optional<Category> entity=categoryRepository.findById(id);
-        Category p=entity.get();
-        p=categoryRepository.save(category);
-        return p;
+        entity.get().setType(category.getType());
+        categoryRepository.save(entity.get());
+        return entity.get();
     }
 
     public void delete(Long id){
