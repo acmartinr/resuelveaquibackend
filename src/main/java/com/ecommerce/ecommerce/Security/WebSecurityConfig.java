@@ -89,6 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/product-images/**").permitAll() //permit request withoit login to that url
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.GET, "/api/products/**").permitAll() //permit request withoit login to that url
+                .antMatchers(HttpMethod.GET, "/api/faq/**").permitAll() //permit request withoit login to that url
                 .antMatchers(HttpMethod.GET, "/api/category/**").permitAll() //permit request withoit login to that url
                 //.antMatchers("/api/csrf/**").permitAll() //permit request withoit login to that url
                 .anyRequest().authenticated();

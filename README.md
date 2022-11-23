@@ -6,6 +6,8 @@ project and add permissions of root to write and read in folders.
 2-Create Thumbs folder inside product-images folder.
 <br>
 3-Change config in properties to pdn (production).
+<br>
+4-Add stripe production pk and secret_key to paymentApiKeys table in database
 ###Api doc url: http://localhost:8080/swagger-ui/index.html
 
 ##Start project in local (not for production)

@@ -13,6 +13,7 @@ import com.ecommerce.ecommerce.Repository.UserRepository;
 import com.ecommerce.ecommerce.common.payload.exception.BussinesRuleException;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,8 +35,7 @@ import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 public class ProductSoldServiceUTest {
-    @Autowired
-    private ProductSoldService productSoldService;
+
     @MockBean
     private ProductoRepository productoRepository;
     @MockBean
@@ -44,12 +44,39 @@ public class ProductSoldServiceUTest {
     private ProductSoldRepository productoSoldRepository;
     @MockBean
     private SalesRepository salesRepository;
+
+
+    @Autowired
+    private ProductSoldService productSoldService;
     @Autowired
     SaleService saleService;
 
     @Test
     @WithMockUser(username="admin",roles={"USER","ADMIN"})
     void should_add_all_products_to_products_sold_error_less_products_than_sold() throws Exception {
+        ProductSold productos[] = new ProductSold[4];
+        productos[0] = Datos.productSoldTest1;
+        productos[1] = Datos.productSoldTest3;
+        productos[2] = Datos.productSoldTest4;
+        User user = Datos.testUser;
+        Sale sale = new Sale();
+        given(productoRepository.findById(1L)).willReturn(java.util.Optional.of(Datos.productTest1));
+        given(productoRepository.findById(3L)).willReturn(java.util.Optional.of(Datos.productTest3));
+        given(productoRepository.findById(4L)).willReturn(java.util.Optional.of(Datos.productTest4));
+        given(productoSoldRepository.save(ArgumentMatchers.any())).willReturn(Datos.productSoldTest1);
+        //Comprobar que hayan productos suficientes y que esten disponibles en shipping
+        Exception exception = assertThrows(BussinesRuleException.class, () -> {
+            List<ProductSold> productsAfterSold = productSoldService.addAllProductSold(productos, user, sale);
+        });
+        String exceptionTxt = "Cantidad de elementos del tipo: "+Datos.productTest3.getName()+" insuficientes en la tienda";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(exceptionTxt));
+    }
+
+
+    @Test
+    @WithMockUser(username="admin",roles={"USER","ADMIN"})
+    void should_rise_exception_not_shipping_product() throws Exception {
         ProductSold productos[] = new ProductSold[4];
         productos[0] = Datos.productSoldTest1;
         productos[1] = Datos.productSoldTest2;
@@ -62,11 +89,11 @@ public class ProductSoldServiceUTest {
         given(productoRepository.findById(3L)).willReturn(java.util.Optional.of(Datos.productTest3));
         given(productoRepository.findById(4L)).willReturn(java.util.Optional.of(Datos.productTest4));
         given(productoSoldRepository.save(ArgumentMatchers.any())).willReturn(Datos.productSoldTest1);
-
+        //Comprobar que hayan productos suficientes y que esten disponibles en shipping
         Exception exception = assertThrows(BussinesRuleException.class, () -> {
             List<ProductSold> productsAfterSold = productSoldService.addAllProductSold(productos, user, sale);
         });
-        String exceptionTxt = "Cantidad de elementos del tipo: "+Datos.productTest3.getName()+" insuficientes en la tienda";
+        String exceptionTxt = "Cantidad de elementos del tipo: "+Datos.productTest2.getName()+" insuficientes en la tienda";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(exceptionTxt));
     }

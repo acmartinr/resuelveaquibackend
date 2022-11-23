@@ -31,9 +31,9 @@ public class FaqController {
 
     @CrossOrigin
     @RequestMapping(value = "/createFaq")
-    private ResponseEntity<Faq> create(@RequestBody Faq user) throws IOException {
+    private ResponseEntity<Faq> create(@RequestBody Faq faq) throws IOException {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(faqService.create(user));
+            return ResponseEntity.status(HttpStatus.OK).body(faqService.create(faq));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
