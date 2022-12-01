@@ -73,7 +73,7 @@ public class ShoppingCarController {
 
     @PostMapping(value = "/addToCar/{userid}")
     public ResponseEntity<String> agregarAlCarrito(@RequestPart Cart cart, @PathVariable("userid") Long userid) {
-
+        System.out.println("adding to cart");
         Gson gson = new Gson();
         try {
             List<Cart> a= new ArrayList<>();
@@ -100,6 +100,7 @@ public class ShoppingCarController {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             return (ResponseEntity<String>) ResponseEntity.badRequest();
         }
 
