@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.Valid;
 import com.ecommerce.ecommerce.Models.ERole;
 import com.ecommerce.ecommerce.Models.Role;
+import com.ecommerce.ecommerce.Models.ShoppingCar;
 import com.ecommerce.ecommerce.Models.User;
 import com.ecommerce.ecommerce.Repository.RoleRepository;
 import com.ecommerce.ecommerce.Repository.UserRepository;
@@ -76,6 +77,9 @@ public class AuthController {
 
         // Create new user's account
         User user = new User(signUpRequest.getFirstname(), signUpRequest.getLastname(), signUpRequest.getAddress(), signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()), "1");
+        ShoppingCar sp = new ShoppingCar();
+        shoppingCarService.create(sp);
+        user.setShoppingCar(sp);
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
