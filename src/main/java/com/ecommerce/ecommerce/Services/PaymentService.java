@@ -41,7 +41,7 @@ public class PaymentService {
         Token token = new Token();
         token.setId(tokenId);
         chargeParams.put("source", token.getId());
-        System.out.println("DDDDDDDDDDDDDDDDD");
+        System.out.println("Payment amount:");
         System.out.println(amount);
         Charge charge = Charge.create(chargeParams);
         return charge.getId();

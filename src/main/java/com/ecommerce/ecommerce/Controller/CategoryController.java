@@ -28,6 +28,11 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
+    @CrossOrigin
+    @GetMapping("/admin/categories")
+    private ResponseEntity<List<Category>> adminCat(){
+        return ResponseEntity.ok(categoryService.getAdminAllCategories());
+    }
 
     @CrossOrigin
     @RequestMapping(value="/createCat")

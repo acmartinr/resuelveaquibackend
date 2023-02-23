@@ -39,7 +39,6 @@ public class SaleService {
         String time = DateTimeUtil.obtenerFechaYHoraActual();
         sale.setDateAndTime(time);
         salesRepository.save(sale);
-
         return sale;
     }
 

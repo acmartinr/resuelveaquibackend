@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @Controller
@@ -35,12 +36,12 @@ public class OrderController {
     private SalesRepository salesRepository;
 
     @GetMapping("/")
-    private ResponseEntity<List<Order>> list(){
+    private ResponseEntity<List<Order>> list() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
 
-    @RequestMapping(value="/createOrder")
+    @RequestMapping(value = "/createOrder")
     private ResponseEntity<String> create(@RequestPart Order order, @RequestPart Long idu,
                                           @RequestPart Long ids) throws IOException {
         order.setUserOrder(userRepository.findById(idu).get());
@@ -50,23 +51,22 @@ public class OrderController {
     }
 
     @GetMapping(value = "getOrder/{id}")
-    private ResponseEntity<Optional<Order>> buscar(@PathVariable("id") Long id){
+    private ResponseEntity<Optional<Order>> buscar(@PathVariable("id") Long id) {
         return ResponseEntity.ok(orderService.findByID(id));
     }
 
     @PutMapping("/updateOrder/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Order order){
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Order order) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(orderService.update(id,order));
-        }
-        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.OK).body(orderService.update(id, order));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @DeleteMapping("/deleteOrder/{id}")
-    public ResponseEntity<Object> delete(@PathVariable ("id") Long id){
-        if(orderService.findByID(id)==null)
+    public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
+        if (orderService.findByID(id) == null)
             return ResponseEntity.ok(Boolean.FALSE);
         else
             orderService.delete(id);
@@ -86,7 +86,9 @@ public class OrderController {
 
     @GetMapping(value = "/getOrderUser/{id}")
     public ResponseEntity<List<Order>> getOrderUser(@PathVariable("id") Long id) {
-        User user=userService.findByID(id).get();
-        return ResponseEntity.ok(orderRepository.orderByUser(user));
+        User user = userService.findByID(id).get();
+        List<Order> orders = orderRepository.orderByUser(user);
+        Collections.reverse(orders);
+        return ResponseEntity.ok(orders);
     }
 }

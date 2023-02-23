@@ -49,6 +49,20 @@ public class ShoppingCarController {
 
     }
 
+    @PostMapping(value = "/clearcart/{userid}")
+    public ResponseEntity<ShoppingCar> clear(@PathVariable("userid") Long userid) throws IOException {
+        try {
+            System.out.println("Deleting"+userid);
+            long cartId = userService.findByID(userid).get().getShoppingCar().getId();
+            System.out.println("cartId"+cartId);
+            return ResponseEntity.status(HttpStatus.OK).body(shoppingCarService.clear(cartId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+    }
+
+
     @DeleteMapping(value = "/removeFromCart/{userid}/{id}")
     public ResponseEntity<String> removeAlCarrito(@PathVariable("id") Long id, @PathVariable("userid") Long userid) {
         Gson gson = new Gson();

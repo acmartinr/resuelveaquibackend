@@ -17,9 +17,11 @@ public class CategoryService {
     public Category create(Category category){return categoryRepository.save(category); }
 
     public List<Category> getAllCategories(){
+        return categoryRepository.findCategoryByProducts();
+    }
+    public List<Category> getAdminAllCategories(){
         return categoryRepository.findAll();
     }
-
     public Category update(Long id, Category category){
         Optional<Category> entity=categoryRepository.findById(id);
         entity.get().setType(category.getType());

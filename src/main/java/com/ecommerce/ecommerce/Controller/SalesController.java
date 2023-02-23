@@ -59,7 +59,8 @@ public class SalesController {
         } else {
             String chargeId = paymentService.processPayment(request.getAmount(), request.getCurrency(), request.getToken().getId());
             if (chargeId != null) {
-                emailService.sendSimpleMessage("info@resuelveaqui.com", "Hola , el usuario " + user.getFirstname() + " " + user.getLastname() + " ha realizado una compra.", "Compra realizada");
+                emailService.sendSimpleMessage("info@resuelveaqui.com", "Hola , el usuario " + user.getFirstname() + " " + user.getLastname() + " ha realizado una compra.", "Compra realizada, revise en el admin para más detalles");
+                emailService.sendSimpleMessage(user.getEmail(), "Orden realizada", "Hola , gracias por comprar en Resuelveaqui, le informamos que su pedido se ha realizado correctamente, puede consultarlo en la opción 'Mis pedidos'");
                 orderService.generatePdf(order, saleObject, productsAfterSold, amount, user);
                 return new ResponseEntity<>(chargeId, HttpStatus.OK);
             } else {

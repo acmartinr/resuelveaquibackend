@@ -45,7 +45,10 @@ public class EmailServiceImpl {
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
-        emailSender.send(message);
-
+        try{
+            emailSender.send(message);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

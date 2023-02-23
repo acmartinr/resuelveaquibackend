@@ -33,7 +33,13 @@ public class ShoppingCarService {
     public void delete(Long id){
         shoppingCarRepository.deleteById(id);
     }
-
+    public ShoppingCar clear(Long id){
+        Optional<ShoppingCar> entity=shoppingCarRepository.findById(id);
+        ShoppingCar sc=entity.get();
+        sc.setProducts("[]");
+        shoppingCarRepository.save(sc);
+        return sc;
+    }
     public Optional<ShoppingCar> findByID(Long id){
         return shoppingCarRepository.findById(id);
     }
